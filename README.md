@@ -14,7 +14,7 @@
 
 <img
   width="200"
-  src="https://github.com/ib-bo/flutter_coding_test/blob/master/flutter_01.png"
+  src="https://github.com/hukusuke1007/flutter_coding_test_skeleton/blob/master/flutter_01.png"
   alt="Screenshot"
 />
 
