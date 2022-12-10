@@ -12,11 +12,7 @@
 
 以下は参考実装のUIですが、自由に実装して構いません。
 
-<img
-  width="200"
-  src="https://github.com/hukusuke1007/flutter_coding_test_skeleton/blob/master/flutter_01.png"
-  alt="Screenshot"
-/>
+<img src="./flutter_01.png" width="200" />
 
 実装が完了したら、どのような設計を行ったか・実装でのアピールポイント・実装上で困ったことについて、[retrospective.md](./retrospective.md)に記載してください。
 
