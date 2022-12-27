@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_coding_test_skeleton/models/weather.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CurrentWeatherPage extends StatefulWidget {
   const CurrentWeatherPage({super.key});
@@ -12,20 +13,18 @@ class CurrentWeatherPage extends StatefulWidget {
 
 class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   Weather? _weather;
-  final String _city = "Tokyo";
+  final String _city = "現在地の水道凍結指数";
+  String? latitude;
+  String? longitude;
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          centerTitle: false,
-          title: const Text("IB Flutter Codecheck"),
+          title: const Text("トウケツライフ"),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            setState(() {
-              getCurrentWeather();
-            });
+            getCurrentWeather();
           },
           child: const Icon(Icons.autorenew),
         ),
@@ -74,8 +73,37 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
 
   Future getCurrentWeather<Integer>() async {
     String apiKey = "985daafdbc6c68ae20ede36ee513bc9a";
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    var lat = position.latitude;
+    var long = position.longitude;
+
+    latitude = "$lat";
+    longitude = "$long";
+
     var url =
-        "https://api.openweathermap.org/data/2.5/weather?q=$_city&appid=$apiKey&units=metric";
+        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric";
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
