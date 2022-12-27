@@ -13,15 +13,11 @@ class CurrentWeatherPage extends StatefulWidget {
 
 class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   Weather? _weather;
-  final String _city = "現在地の水道凍結指数";
   String? latitude;
   String? longitude;
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("トウケツライフ"),
-        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             getCurrentWeather();
@@ -47,11 +43,18 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       Container(
         margin: const EdgeInsets.all(10.0),
-        child: Text(_city),
+        child: const Text(
+          '現在地の水道凍結指数',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
       ),
       Container(
         margin: const EdgeInsets.all(10.0),
-        child: showIcon(),
+        child: showLevelIcon(weather),
+      ),
+      Container(
+        margin: const EdgeInsets.all(10.0),
+        child: showWeatherIcon(),
       ),
       Container(
           margin: const EdgeInsets.all(10.0),
@@ -64,10 +67,10 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
           margin: const EdgeInsets.all(5.0), child: Text(weather.description)),
       Container(
           margin: const EdgeInsets.all(5.0),
-          child: Text("Feels:${weather.feelsLike}°C")),
+          child: Text("体感温度: ${weather.feelsLike}°C")),
       Container(
           margin: const EdgeInsets.all(5.0),
-          child: Text("H:${weather.high}°C L:${weather.low}°C")),
+          child: Text("最高気温: ${weather.high}°C 最低気温: ${weather.low}°C")),
     ]);
   }
 
@@ -103,7 +106,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
     longitude = "$long";
 
     var url =
-        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric";
+        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=hoge&units=metric";
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -113,7 +116,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
     return Weather.fromJson(jsonDecode(response.body));
   }
 
-  dynamic showIcon() {
+  dynamic showWeatherIcon() {
     switch (_weather?.id) {
       case 'Clouds':
         return Image.network(
@@ -155,6 +158,22 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
           'http://openweathermap.org/img/w/01n.png',
           scale: 0.5,
         );
+    }
+  }
+
+  showLevelIcon(Weather weather) {
+    if (weather.low > 0.0) {
+      return Image.asset('images/level1.png', scale: 15);
+    } else if (weather.low > -3.0) {
+      return Image.asset('images/level2.png', scale: 15);
+    } else if (weather.low > -5.0) {
+      return Image.asset('images/level3.png', scale: 15);
+    } else if (weather.low > -7.0) {
+      return Image.asset('images/level4.png', scale: 15);
+    } else if (weather.low > -8.0) {
+      return Image.asset('images/level5.png', scale: 15);
+    } else {
+      print('error');
     }
   }
 }
