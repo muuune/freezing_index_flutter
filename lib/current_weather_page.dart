@@ -5,6 +5,9 @@ import 'dart:convert';
 import 'package:flutter_coding_test_skeleton/models/weather.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'dart:async';
+import 'package:intl/intl.dart';
 
 class CurrentWeatherPage extends StatefulWidget {
   const CurrentWeatherPage({super.key});
@@ -18,11 +21,10 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   String? latitude;
   String? longitude;
   String LevelText = '位置情報をONにすると表示されます';
+  String _time = '';
 
   void main() {
-    notify();
-    notificationText;
-    runApp(MyApp());
+    runApp(const MyApp());
   }
 
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   }
 
   Widget weatherBox(Weather weather) {
+    notificationText(weather);
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       Container(
         margin: const EdgeInsets.all(10.0),
@@ -88,7 +91,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   }
 
   Future getCurrentWeather<Integer>() async {
-    String apiKey = "985daafdbc6c68ae20ede36ee513bc9a";
+    String apiKey = "ここにAPIキー";
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -119,7 +122,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
     longitude = "$long";
 
     var url =
-        "https://api.openweathermap.org/data/2.5/weather?lat=39.802768&lon=141.137075&appid=$apiKey&units=metric";
+        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric";
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -190,15 +193,15 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
 
   showLevelText(Weather weather) {
     if (weather.low > 0.0) {
-      return Text('水道管凍結の心配はないです');
+      return const Text('水道管凍結の心配はないです');
     } else if (weather.low > -3.0) {
-      return Text('水道管凍結の可能性があります');
+      return const Text('水道管凍結の可能性があります');
     } else if (weather.low > -5.0) {
-      return Text('水道管凍結に注意です');
+      return const Text('水道管凍結に注意です');
     } else if (weather.low > -7.0) {
-      return Text('水道管凍結に警戒です');
+      return const Text('水道管凍結に警戒です');
     } else if (weather.low > -8.0) {
-      return Text('水道管の破裂に注意です');
+      return const Text('水道管の破裂に注意です');
     }
   }
 
