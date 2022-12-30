@@ -122,7 +122,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
     longitude = "$long";
 
     var url =
-        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric";
+        "https://api.openweathermap.org/data/2.5/weather?lat=39.802768&lon=141.137075&appid=$apiKey&units=metric";
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -179,15 +179,15 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
 
   showLevelIcon(Weather weather) {
     if (weather.low > 0.0) {
-      return Image.asset('images/level1.png', scale: 15);
+      return Image.asset('images/level_1.png', scale: 1.7);
     } else if (weather.low > -3.0) {
-      return Image.asset('images/level2.png', scale: 15);
+      return Image.asset('images/level_2.png', scale: 2);
     } else if (weather.low > -5.0) {
-      return Image.asset('images/level3.png', scale: 15);
+      return Image.asset('images/level_3.png', scale: 2);
     } else if (weather.low > -7.0) {
-      return Image.asset('images/level4.png', scale: 15);
+      return Image.asset('images/level_4.png', scale: 2);
     } else if (weather.low > -8.0) {
-      return Image.asset('images/level5.png', scale: 15);
+      return Image.asset('images/level_5.png', scale: 2);
     }
   }
 
