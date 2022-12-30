@@ -21,10 +21,11 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   String? latitude;
   String? longitude;
   String LevelText = '位置情報をONにすると表示されます';
-  String _time = '';
 
-  void main() {
-    runApp(const MyApp());
+  @override
+  void initState() {
+    super.initState();
+    mainLoop();
   }
 
   Widget build(BuildContext context) {
@@ -36,18 +37,17 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
           child: const Icon(Icons.autorenew),
         ),
         body: Center(
-          child: FutureBuilder<dynamic>(
-            builder: (context, snapshot) {
-              _weather = snapshot.data;
-              if (snapshot.data == null) {
-                return const Text("Error getting weather");
-              } else {
-                return weatherBox(_weather!);
-              }
-            },
-            future: getCurrentWeather(),
-          ),
-        ));
+            child: FutureBuilder<dynamic>(
+          builder: (context, snapshot) {
+            _weather = snapshot.data;
+            if (snapshot.data == null) {
+              return const Text("天気情報を取得できません :(");
+            } else {
+              return weatherBox(_weather!);
+            }
+          },
+          future: getCurrentWeather(),
+        )));
   }
 
   Widget weatherBox(Weather weather) {
@@ -90,7 +90,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
     ]);
   }
 
-  Future getCurrentWeather<Integer>() async {
+  Future getCurrentWeather() async {
     String apiKey = "ここにAPIキー";
     bool serviceEnabled;
     LocationPermission permission;
@@ -193,33 +193,45 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
 
   showLevelText(Weather weather) {
     if (weather.low > 0.0) {
-      return const Text('水道管凍結の心配はないです');
+      return const Text('今夜は水道管凍結の心配はないです');
     } else if (weather.low > -3.0) {
-      return const Text('水道管凍結の可能性があります');
+      return const Text('今夜は水道管凍結の可能性があります');
     } else if (weather.low > -5.0) {
-      return const Text('水道管凍結に注意です');
+      return const Text('今夜は水道管凍結に注意です');
     } else if (weather.low > -7.0) {
-      return const Text('水道管凍結に警戒です');
+      return const Text('今夜は水道管凍結に警戒です');
     } else if (weather.low > -8.0) {
-      return const Text('水道管の破裂に注意です');
+      return const Text('今夜は水道管の破裂に注意です');
     }
   }
 
   notificationText(Weather weather) {
     if (weather.low > 0.0) {
-      return LevelText = '水道管凍結の心配はないです';
+      return LevelText = '今夜は水道管凍結の心配はないです';
     } else if (weather.low > -3.0) {
-      return LevelText = '水道管凍結の可能性があります';
+      return LevelText = '今夜は水道管凍結の可能性があります';
     } else if (weather.low > -5.0) {
-      return LevelText = '水道管凍結に注意です';
+      return LevelText = '今夜は水道管凍結に注意です';
     } else if (weather.low > -7.0) {
-      return LevelText = '水道管凍結に警戒です';
+      return LevelText = '今夜は水道管凍結に警戒です';
     } else if (weather.low > -8.0) {
-      return LevelText = '水道管の破裂に注意です';
+      return LevelText = '今夜は水道管の破裂に注意です';
     }
   }
 
-  //通知機能
+  // 1分ごとに定期実行
+  Future<void> mainLoop() async {
+    while (true) {
+      await Future<void>.delayed(const Duration(minutes: 1));
+      setState(() {
+        getCurrentWeather();
+        weatherBox;
+        print('1分経ちました');
+      });
+    }
+  }
+
+  // 通知
   Future<void> notify() {
     final flnp = FlutterLocalNotificationsPlugin();
     return flnp
@@ -228,7 +240,6 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
             iOS: DarwinInitializationSettings(),
           ),
         )
-        .then((_) =>
-            flnp.show(0, '現在地の水道管凍結指数', LevelText, NotificationDetails()));
+        .then((_) => flnp.show(0, 'トウケツライフ', LevelText, NotificationDetails()));
   }
 }

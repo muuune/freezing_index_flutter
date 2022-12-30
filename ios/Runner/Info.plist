@@ -47,5 +47,14 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>XXX.YYYYYYYYY.fetch</string>
+    </array>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>processing</string>
+    </array>
 </dict>
 </plist>
