@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_coding_test_skeleton/current_weather_page.dart';
+import 'package:flutter_coding_test_skeleton/freezing_index_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'IB Flutter CodeCheck',
+      title: 'トウケツライフ',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CurrentWeatherPage(),
+      home: const FreezingIndexPage(),
     );
   }
 }
