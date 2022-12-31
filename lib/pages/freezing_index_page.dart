@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_coding_test_skeleton/main.dart';
 import 'package:flutter_coding_test_skeleton/models/weather.dart';
 import 'package:flutter_coding_test_skeleton/show_weather.dart';
-import 'get_current_weather.dart';
+import '../get_current_weather.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:async';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'current_weather_page.dart';
+import 'home_page.dart';
 
 class FreezingIndexPage extends StatefulWidget {
   const FreezingIndexPage({super.key});
@@ -19,17 +19,16 @@ class FreezingIndexPage extends StatefulWidget {
 }
 
 class _FreezingIndexPage extends State<FreezingIndexPage> {
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
   Weather? _weather;
   String LevelText = '位置情報をONにすると表示されます';
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  @override
-  void initState() {
-    super.initState();
-    mainLoop();
-    _init();
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,10 +65,10 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
         child: showLevelText(weather),
       ),
       Container(
-          margin: const EdgeInsets.all(10.0),
+          margin: const EdgeInsets.only(top: 20),
           child: FloatingActionButton.extended(
-              icon: Icon(Icons.notification_add),
-              label: Text('毎日21時に通知する',
+              icon: const Icon(Icons.notification_add),
+              label: const Text('毎日21時に通知する',
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
                 final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
@@ -80,34 +79,15 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
                 );
               })),
       Container(
-        margin: const EdgeInsets.all(1.0),
+        margin: const EdgeInsets.all(10.0),
         child: FloatingActionButton.extended(
-            icon: Icon(Icons.notifications_off),
-            label: Text('通知をオフにする',
+            icon: const Icon(Icons.notifications_off),
+            label: const Text('通知をオフにする',
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             onPressed: () async {
               await _cancelNotification();
             }),
       ),
-      Container(
-        margin: const EdgeInsets.all(10.0),
-        child: showWeatherIcon(),
-      ),
-      Container(
-          margin: const EdgeInsets.all(10.0),
-          child: Text(
-            "${weather.temp}°C",
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-          )),
-      Container(
-          margin: const EdgeInsets.all(5.0), child: Text(weather.description)),
-      Container(
-          margin: const EdgeInsets.all(5.0),
-          child: Text("体感温度: ${weather.feelsLike}°C")),
-      Container(
-          margin: const EdgeInsets.all(5.0),
-          child: Text("最高気温: ${weather.high}°C 最低気温: ${weather.low}°C")),
     ]);
   }
 
@@ -117,7 +97,6 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
       await Future<void>.delayed(const Duration(minutes: 1));
       setState(() {
         getCurrentWeather();
-        weatherBox;
         print('1分経ちました');
       });
     }
@@ -137,7 +116,6 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
     }
   }
 
-// 毎日21時に定期通知する
   Future<void> _init() async {
     await _configureLocalTimeZone();
     await _initializeNotification();
@@ -234,5 +212,43 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
           .then(
               (_) => flnp.show(0, 'トウケツライフ', LevelText, NotificationDetails()));
     }
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  static const _screens = [
+    FreezingIndexPage(),
+    CurrentWeatherPage(),
+  ];
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'お気に入り'),
+        BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'お知らせ'),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'アカウント'),
+      ],
+      type: BottomNavigationBarType.fixed,
+    ));
   }
 }

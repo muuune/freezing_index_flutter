@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'models/weather.dart';
 
-Weather? _weather;
-
 // OpenWeatherから取得したweatherIDから、天気アイコンを表示
-showWeatherIcon() {
-  switch (_weather?.id) {
+showWeatherIcon(Weather weather) {
+  switch (weather.id) {
     case 'Clouds':
       return Image.network(
         'http://openweathermap.org/img/w/04d.png',

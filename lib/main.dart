@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_coding_test_skeleton/freezing_index_page.dart';
+import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
+import 'package:flutter_coding_test_skeleton/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const FreezingIndexPage(),
+      home: const HomePage(),
     );
   }
 }
