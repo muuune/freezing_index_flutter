@@ -8,7 +8,7 @@ String? longitude;
 
 // 現在地の緯度・経度を取得し、OpenWeatherから天気情報を取得する
 Future getCurrentWeather() async {
-  String apiKey = "985daafdbc6c68ae20ede36ee513bc9a";
+  String apiKey = "ここにAPIキー";
   bool serviceEnabled;
   LocationPermission permission;
 

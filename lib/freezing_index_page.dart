@@ -65,26 +65,30 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
         margin: const EdgeInsets.all(10.0),
         child: showLevelText(weather),
       ),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-        FloatingActionButton(
-            child: Icon(Icons.notification_add),
-            onPressed: () async {
-              final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-              await _registerMessage(
-                hour: now.hour,
-                minutes: now.minute + 1,
-                message: LevelText,
-              );
-            }),
-        const SizedBox(
-          width: 10,
-        ),
-        FloatingActionButton(
-            child: Icon(Icons.notifications_off),
+      Container(
+          margin: const EdgeInsets.all(10.0),
+          child: FloatingActionButton.extended(
+              icon: Icon(Icons.notification_add),
+              label: Text('毎日21時に通知する',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () async {
+                final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+                await _registerMessage(
+                  hour: now.hour,
+                  minutes: now.minute + 1,
+                  message: LevelText,
+                );
+              })),
+      Container(
+        margin: const EdgeInsets.all(1.0),
+        child: FloatingActionButton.extended(
+            icon: Icon(Icons.notifications_off),
+            label: Text('通知をオフにする',
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             onPressed: () async {
               await _cancelNotification();
             }),
-      ]),
+      ),
       Container(
         margin: const EdgeInsets.all(10.0),
         child: showWeatherIcon(),
