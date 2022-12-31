@@ -34,5 +34,18 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- 再起動時およびアプリケーションの更新後も通知のスケジュールを維持するために必要-->
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"> 
+            <intent-filter> 
+                <action android:name="android.intent.action.BOOT_COMPLETED"/> 
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/> 
+            </intent-filter> 
+        </receiver> 
+        <!-- プラグインがスケジュールされた通知の表示を処理するために必要-->
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
     </application>
+    <!-- 追加 端末が起動されたときに通知を受ける権限を要求する -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/> 
+    <!-- 追加 (省略可)Android通知のバイブレーションパターンをカスタマイズする場合に必要 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>
