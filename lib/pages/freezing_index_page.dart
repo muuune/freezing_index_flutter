@@ -10,6 +10,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'current_weather_page.dart';
 import 'home_page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class FreezingIndexPage extends StatefulWidget {
   const FreezingIndexPage({super.key});
@@ -37,7 +39,9 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
       builder: (context, snapshot) {
         _weather = snapshot.data;
         if (snapshot.data == null) {
-          return const Text("天気情報読み込み中...");
+          return const CircularProgressIndicator(
+            color: Colors.blue,
+          );
         } else {
           return weatherBox(_weather!);
         }
@@ -52,7 +56,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
       Container(
         margin: const EdgeInsets.all(10.0),
         child: const Text(
-          '現在地の水道凍結指数',
+          '現在地の水道管凍結指数',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
@@ -212,43 +216,5 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
           .then(
               (_) => flnp.show(0, 'トウケツライフ', LevelText, NotificationDetails()));
     }
-  }
-}
-
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
-
-  @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  static const _screens = [
-    FreezingIndexPage(),
-    CurrentWeatherPage(),
-  ];
-
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: _onItemTapped,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ホーム'),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'お気に入り'),
-        BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'お知らせ'),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: 'アカウント'),
-      ],
-      type: BottomNavigationBarType.fixed,
-    ));
   }
 }

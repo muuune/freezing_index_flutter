@@ -7,6 +7,8 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import '../models/weather.dart';
+import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,7 +37,7 @@ class _HomePage extends State<HomePage> {
     return Scaffold(
         body: display[selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
-          items: [
+          items: const [
             BottomNavigationBarItem(
                 icon: Icon(Icons.ac_unit), label: '水道管凍結指数'),
             BottomNavigationBarItem(
@@ -50,7 +52,6 @@ class _HomePage extends State<HomePage> {
             selectedIndex = index;
             setState(() {});
           },
-          // 選択中フッターメニューの色
           fixedColor: Colors.blue,
         ));
   }

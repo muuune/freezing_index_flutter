@@ -22,7 +22,9 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage> {
       builder: (context, snapshot) {
         _weather = snapshot.data;
         if (snapshot.data == null) {
-          return const Text("天気情報読み込み中...");
+          return const CircularProgressIndicator(
+            color: Colors.blue,
+          );
         } else {
           return weatherBox(_weather!);
         }
@@ -34,6 +36,13 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage> {
   @override
   Widget weatherBox(Weather weather) {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+      Container(
+        margin: const EdgeInsets.all(10.0),
+        child: const Text(
+          '現在地の天気情報',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+      ),
       Container(
         margin: const EdgeInsets.all(10.0),
         child: showWeatherIcon(weather),
