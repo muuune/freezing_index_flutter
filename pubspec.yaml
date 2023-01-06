@@ -38,6 +38,12 @@ flutter:
 
   assets:
      - images/
+     - fonts/
+
+  fonts:
+     - family: Montserrat
+       fonts: 
+         - asset: fonts/Montserrat-Bold.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

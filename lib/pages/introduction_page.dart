@@ -4,6 +4,11 @@ import 'package:flutter_coding_test_skeleton/pages/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class Tutorial extends ConsumerStatefulWidget {
   const Tutorial({Key? key}) : super(key: key);
@@ -21,6 +26,10 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
   final GlobalKey key2 = GlobalKey();
   final GlobalKey key3 = GlobalKey();
   final GlobalKey key4 = GlobalKey();
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  String LevelText = '位置情報をONにすると表示されます';
 
   @override
   void initState() {
@@ -64,13 +73,13 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
           ),
           Container(
             margin: const EdgeInsets.all(10.0),
-            child: const Text('今夜は水道管凍結に注意です',
+            child: const Text('現在、水道管凍結に注意です',
                 style: const TextStyle(fontSize: 17)),
           ),
           Container(
-            key: key2,
             margin: const EdgeInsets.only(top: 20),
             child: FloatingActionButton.extended(
+                key: key2,
                 heroTag: "hero01",
                 icon: const Icon(Icons.notification_add),
                 label: const Text('毎日21時に通知する',
@@ -78,9 +87,9 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                 onPressed: () {}),
           ),
           Container(
-            key: key3,
             margin: const EdgeInsets.all(10.0),
             child: FloatingActionButton.extended(
+                key: key3,
                 heroTag: "hero02",
                 icon: const Icon(Icons.notifications_off),
                 label: const Text('通知をオフにする',
@@ -147,8 +156,8 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                           color: Colors.white,
                           fontSize: 20.0),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10.0),
                       child: Text(
                         "通知を見るだけで、今夜の水抜きが必要かどうか確認できます。 \n水抜き忘れの防止にもなるのでおすすめですよ。",
                         style: TextStyle(color: Colors.white),
@@ -280,7 +289,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
         textSkip: "SKIP",
         paddingFocus: 10,
         opacityShadow: 0.9,
-        onSkip: () {
+        onSkip: () async {
           Navigator.pushNamed(context, '/first');
         },
         onFinish: () {
@@ -302,5 +311,21 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
       );
       pref.setBool('isAlreadyFirstLaunch', true);
     }
+  }
+
+  Future<void> _registerMessage({
+    required int hour,
+    required int minutes,
+    required message,
+  }) async {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(
+      tz.local,
+      now.year,
+      now.month,
+      now.day,
+      hour,
+      minutes,
+    );
   }
 }

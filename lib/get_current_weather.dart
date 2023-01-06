@@ -39,7 +39,7 @@ Future getCurrentWeather() async {
   longitude = "$long";
 
   var url =
-      "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric";
+      "https://api.openweathermap.org/data/2.5/weather?lat=39.796736&lon=141.1392002&APPID=$apiKey&units=metric";
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {

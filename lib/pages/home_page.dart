@@ -56,12 +56,13 @@ class _HomePage extends State<HomePage> {
         ));
   }
 
+  //1分ごとにバックグラウンド実行
   Future<void> mainLoop() async {
     while (true) {
-      await Future<void>.delayed(const Duration(minutes: 1));
+      await Future<void>.delayed(const Duration(minutes: 10));
       setState(() {
         getCurrentWeather();
-        print('1分経ちました');
+        print('10分経ちました');
       });
     }
   }

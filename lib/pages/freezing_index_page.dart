@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_coding_test_skeleton/main.dart';
 import 'package:flutter_coding_test_skeleton/models/weather.dart';
@@ -25,10 +26,12 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
   void initState() {
     super.initState();
     _init();
+    _requestPermissions();
   }
 
   Weather? _weather;
-  String LevelText = '位置情報をONにすると表示されます';
+  String NotificationLevelText = '位置情報をONにすると表示されます';
+  String NowLevelText = '位置情報をONにすると表示されます';
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -54,7 +57,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
     notificationText(weather);
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       Container(
-        margin: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.all(20.0),
         child: const Text(
           '現在地の水道管凍結指数',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -65,31 +68,76 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
         child: showLevelIcon(weather),
       ),
       Container(
-        margin: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.only(top: 20),
         child: showLevelText(weather),
       ),
       Container(
-          margin: const EdgeInsets.only(top: 20),
+          margin: const EdgeInsets.only(top: 40),
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.notification_add),
               label: const Text('毎日21時に通知する',
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
-                final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-                await _registerMessage(
-                  hour: now.hour,
-                  minutes: now.minute + 1,
-                  message: LevelText,
-                );
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoAlertDialog(
+                        title: const Text('毎日21時に水道管凍結指数を通知しても良いですか?'),
+                        content: const Text('いつでもオフにすることができます。'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('キャンセル'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              final tz.TZDateTime now =
+                                  tz.TZDateTime.now(tz.local);
+                              _registerMessage(
+                                hour: now.hour,
+                                minutes: now.minute + 1,
+                                message: NotificationLevelText,
+                              );
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    });
               })),
       Container(
         margin: const EdgeInsets.all(10.0),
         child: FloatingActionButton.extended(
             icon: const Icon(Icons.notifications_off),
-            label: const Text('通知をオフにする',
+            label: const Text('  通知をオフにする  ',
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             onPressed: () async {
-              await _cancelNotification();
+              showCupertinoDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CupertinoAlertDialog(
+                      title: const Text('通知をオフにしても良いですか?'),
+                      content: const Text('オフにした場合、毎日21時に通知が届かなくなります。'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('キャンセル'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _cancelNotification();
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  });
             }),
       ),
     ]);
@@ -107,16 +155,16 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
   }
 
   notificationText(Weather weather) {
-    if (weather.low > 0.0) {
-      return LevelText = '今夜は水道管凍結の心配はないです';
+    if (weather.low > 1.0) {
+      return NotificationLevelText = '今夜は水道管凍結の心配はありません';
+    } else if (weather.low > -1.0) {
+      return NotificationLevelText = '今夜は水道管凍結の可能性があります';
     } else if (weather.low > -3.0) {
-      return LevelText = '今夜は水道管凍結の可能性があります';
+      return NotificationLevelText = '今夜は水道管凍結に注意です';
     } else if (weather.low > -5.0) {
-      return LevelText = '今夜は水道管凍結に注意です';
-    } else if (weather.low > -7.0) {
-      return LevelText = '今夜は水道管凍結に警戒です';
-    } else if (weather.low > -8.0) {
-      return LevelText = '今夜は水道管の破裂に注意です';
+      return NotificationLevelText = '今夜は水道管凍結に警戒です';
+    } else if (weather.low > -6.0) {
+      return NotificationLevelText = '今夜は水道管の破裂に注意です';
     }
   }
 
@@ -203,18 +251,5 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
-
-    // 使用していない通知機能
-    Future<void> notify() {
-      final flnp = FlutterLocalNotificationsPlugin();
-      return flnp
-          .initialize(
-            InitializationSettings(
-              iOS: DarwinInitializationSettings(),
-            ),
-          )
-          .then(
-              (_) => flnp.show(0, 'トウケツライフ', LevelText, NotificationDetails()));
-    }
   }
 }

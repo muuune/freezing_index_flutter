@@ -7,42 +7,42 @@ showWeatherIcon(Weather weather) {
     case 'Clouds':
       return Image.network(
         'http://openweathermap.org/img/w/04d.png',
-        scale: 0.5,
+        scale: 0.3,
       );
     case 'Snow':
       return Image.network(
         'http://openweathermap.org/img/w/13d.png',
-        scale: 0.5,
+        scale: 0.4,
       );
     case 'Rain':
       return Image.network(
         'http://openweathermap.org/img/w/09d.png',
-        scale: 0.5,
+        scale: 0.4,
       );
     case 'Clear':
       return Image.network(
         'http://openweathermap.org/img/w/01d.png',
-        scale: 0.5,
+        scale: 0.4,
       );
     case 'Fog':
       return Image.network(
         'http://openweathermap.org/img/w/50d.png',
-        scale: 0.5,
+        scale: 0.4,
       );
     case 'Mist':
       return Image.network(
         'http://openweathermap.org/img/w/50n.png',
-        scale: 0.5,
+        scale: 0.4,
       );
     case 'Haze':
       return Image.network(
         'http://openweathermap.org/img/w/50d.png',
-        scale: 0.5,
+        scale: 0.4,
       );
     case 'default':
       return Image.network(
         'http://openweathermap.org/img/w/01n.png',
-        scale: 0.5,
+        scale: 10,
       );
   }
 }
@@ -65,14 +65,29 @@ showLevelIcon(Weather weather) {
 // OpenWeatherから取得した現在地の最低気温に応じて、水道管凍結指数(Text)を表示
 showLevelText(Weather weather) {
   if (weather.low > 0.0) {
-    return const Text('今夜は水道管凍結の心配はないです');
+    return const Text(
+      '現在、水道管凍結の心配はありません',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
   } else if (weather.low > -3.0) {
-    return const Text('今夜は水道管凍結の可能性があります');
+    return const Text(
+      '現在、水道管凍結の可能性があります',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
   } else if (weather.low > -5.0) {
-    return const Text('今夜は水道管凍結に注意です');
+    return const Text(
+      '現在、水道管凍結に注意です',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
   } else if (weather.low > -7.0) {
-    return const Text('今夜は水道管凍結に警戒です');
+    return const Text(
+      '現在、水道管凍結に警戒です',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
   } else if (weather.low > -8.0) {
-    return const Text('今夜は水道管の破裂に注意です');
+    return const Text(
+      '現在、水道管の破裂に注意です',
+      style: TextStyle(fontWeight: FontWeight.bold),
+    );
   }
 }

@@ -37,31 +37,50 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage> {
   Widget weatherBox(Weather weather) {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       Container(
-        margin: const EdgeInsets.all(10.0),
-        child: const Text(
-          '現在地の天気情報',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
+        margin: const EdgeInsets.all(10),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+          Icon(Icons.location_on),
+          Text(' 現在の天気情報',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ))
+        ]),
       ),
       Container(
-        margin: const EdgeInsets.all(10.0),
         child: showWeatherIcon(weather),
       ),
       Container(
-          margin: const EdgeInsets.all(10.0),
+          margin: const EdgeInsets.all(5.0),
+          child: Text(weather.name,
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 25))),
+      Container(
+          margin: const EdgeInsets.all(5.0),
           child: Text(
-            "${weather.temp}°C",
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            "${weather.temp}°",
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 60,
+                fontFamily: 'Montserrat'),
           )),
       Container(
-          margin: const EdgeInsets.all(5.0), child: Text(weather.description)),
+          margin: const EdgeInsets.all(5.0),
+          child: Text(weather.description,
+              style: const TextStyle(fontWeight: FontWeight.bold))),
       Container(
           margin: const EdgeInsets.all(5.0),
-          child: Text("体感温度: ${weather.feelsLike}°C")),
+          child: Text("体感温度: ${weather.feelsLike}°",
+              style: const TextStyle(fontWeight: FontWeight.bold))),
       Container(
           margin: const EdgeInsets.all(5.0),
-          child: Text("最高気温: ${weather.high}°C 最低気温: ${weather.low}°C")),
+          child: Text("気圧: ${weather.pressure}hPa",
+              style: const TextStyle(fontWeight: FontWeight.bold))),
+      Container(
+          margin: const EdgeInsets.all(5.0),
+          child: Text("湿度: ${weather.humidity}%",
+              style: const TextStyle(fontWeight: FontWeight.bold))),
     ]);
   }
 }

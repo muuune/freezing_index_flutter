@@ -5,6 +5,9 @@ class Weather {
   final double high;
   final String description;
   final String id;
+  final double pressure;
+  final double humidity;
+  final String name;
 
   Weather({
     required this.temp,
@@ -13,6 +16,9 @@ class Weather {
     required this.high,
     required this.description,
     required this.id,
+    required this.pressure,
+    required this.humidity,
+    required this.name,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
@@ -23,6 +29,9 @@ class Weather {
       high: json['main']['temp_max'].toDouble(),
       description: json['weather'][0]['description'],
       id: json['weather'][0]['main'],
+      pressure: json['main']['pressure'].toDouble(),
+      humidity: json['main']['humidity'].toDouble(),
+      name: json['name'],
     );
   }
 }
