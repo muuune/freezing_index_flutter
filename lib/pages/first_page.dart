@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_coding_test_skeleton/pages/home_page.dart';
-import 'package:flutter_coding_test_skeleton/pages/introduction_page.dart';
+import 'package:freezing_index_flutter/pages/home_page.dart';
+import 'package:freezing_index_flutter/pages/introduction_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FirstPage extends StatelessWidget {

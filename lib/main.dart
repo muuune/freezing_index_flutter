@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_coding_test_skeleton/pages/first_page.dart';
-import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
-import 'package:flutter_coding_test_skeleton/pages/home_page.dart';
-import 'package:flutter_coding_test_skeleton/pages/introduction_page.dart';
+import 'package:freezing_index_flutter/pages/first_page.dart';
+import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
+import 'package:freezing_index_flutter/pages/home_page.dart';
+import 'package:freezing_index_flutter/pages/introduction_page.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 void main() {

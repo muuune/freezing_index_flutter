@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_coding_test_skeleton/get_current_weather.dart';
-import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
-import 'package:flutter_coding_test_skeleton/show_weather.dart';
+import 'package:freezing_index_flutter/get_current_weather.dart';
+import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
+import 'package:freezing_index_flutter/show_weather.dart';
 import '../models/weather.dart';
 
 class CurrentWeatherPage extends StatefulWidget {

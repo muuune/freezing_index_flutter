@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
-import 'package:flutter_coding_test_skeleton/pages/home_page.dart';
+import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
+import 'package:freezing_index_flutter/pages/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
+import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class Tutorial extends ConsumerStatefulWidget {

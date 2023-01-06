@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_coding_test_skeleton/main.dart';
-import 'package:flutter_coding_test_skeleton/models/weather.dart';
-import 'package:flutter_coding_test_skeleton/show_weather.dart';
+import 'package:freezing_index_flutter/main.dart';
+import 'package:freezing_index_flutter/models/weather.dart';
+import 'package:freezing_index_flutter/show_weather.dart';
 import '../get_current_weather.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;

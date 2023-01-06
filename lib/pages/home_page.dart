@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_coding_test_skeleton/get_current_weather.dart';
-import 'package:flutter_coding_test_skeleton/pages/current_weather_page.dart';
-import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
+import 'package:freezing_index_flutter/get_current_weather.dart';
+import 'package:freezing_index_flutter/pages/current_weather_page.dart';
+import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
+import 'package:freezing_index_flutter/pages/introduction_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -30,7 +31,10 @@ class _HomePage extends State<HomePage> {
       FlutterLocalNotificationsPlugin();
 
   // 切り替える画面のリスト
-  List<Widget> display = [FreezingIndexPage(), CurrentWeatherPage()];
+  List<Widget> display = [
+    FreezingIndexPage(),
+    CurrentWeatherPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
