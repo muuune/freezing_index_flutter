@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_coding_test_skeleton/pages/first_page.dart';
 import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
 import 'package:flutter_coding_test_skeleton/pages/home_page.dart';
 import 'package:flutter_coding_test_skeleton/pages/introduction_page.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Tutorial(),
+      home: const FirstPage(),
     );
   }
 }

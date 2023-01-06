@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
 import 'package:flutter_coding_test_skeleton/pages/home_page.dart';
@@ -40,12 +41,11 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
 
   void _layout(_) {
     Future.delayed(const Duration(seconds: 1));
-    showTutorial();
+    showTutorial(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _showTutorial(context));
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           key: key4,
@@ -96,6 +96,30 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     style: const TextStyle(fontWeight: FontWeight.bold)),
                 onPressed: () {}),
           ),
+          Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: FloatingActionButton.extended(
+                  icon: const Icon(Icons.help),
+                  label: const Text('凍結指数が表示されない場合',
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  onPressed: () async {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CupertinoAlertDialog(
+                            content: const Text(
+                                '凍結指数が表示されない場合は\n「設定」からアプリの位置情報をオンにしてください。'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
+                  })),
         ])));
   }
 
@@ -124,7 +148,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     Padding(
                       padding: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "指数は、現在地の最低気温をもとに導き出されています。\n方角や風の計算はしていませんので、あくまで参考までに。",
+                        "指数は、現在地の気温をもとに導き出しています。\n方角や風の計算はしていませんので、あくまで参考までに。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -159,7 +183,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     const Padding(
                       padding: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "通知を見るだけで、今夜の水抜きが必要かどうか確認できます。 \n水抜き忘れの防止にもなるのでおすすめですよ。",
+                        "通知を見るだけで、今夜の水抜きが必要かどうか確認できます。 \n水抜き忘れの防止にもなるのでおすすめです。\n\n※通知を行う際は、このアプリを終了しないようお願いします。\nアプリが終了してしまうと、天気情報を取得することができなくなります。\n必ずバックグラウンド状態にしておいてください。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -256,7 +280,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "天気情報も合わせて確認してみてください！",
+                        "天気情報も合わせて確認してみてください！\n\nこの後表示される、位置情報と通知の許可は、必ずオンにしていただくようお願いいたします。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -283,7 +307,9 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
     );
   }
 
-  void showTutorial() {
+  void showTutorial(BuildContext context) async {
+    final pref = await SharedPreferences.getInstance();
+
     tutorialCoachMark = TutorialCoachMark(
         targets: targets,
         textSkip: "SKIP",
@@ -296,21 +322,6 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
           Navigator.pushNamed(context, '/first');
         })
       ..show(context: context);
-  }
-
-  void _showTutorial(BuildContext context) async {
-    final pref = await SharedPreferences.getInstance();
-
-    if (pref.getBool('isAlreadyFirstLaunch') != true) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Tutorial(),
-          fullscreenDialog: true,
-        ),
-      );
-      pref.setBool('isAlreadyFirstLaunch', true);
-    }
   }
 
   Future<void> _registerMessage({

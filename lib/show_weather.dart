@@ -52,13 +52,13 @@ showLevelIcon(Weather weather) {
   if (weather.low > 0.0) {
     return Image.asset('images/level_1.png', scale: 1.7);
   } else if (weather.low > -3.0) {
-    return Image.asset('images/level_2.png', scale: 2);
+    return Image.asset('images/level_2.png', scale: 2.1);
   } else if (weather.low > -5.0) {
-    return Image.asset('images/level_3.png', scale: 2);
+    return Image.asset('images/level_3.png', scale: 2.1);
   } else if (weather.low > -7.0) {
-    return Image.asset('images/level_4.png', scale: 2);
+    return Image.asset('images/level_4.png', scale: 2.1);
   } else if (weather.low > -8.0) {
-    return Image.asset('images/level_5.png', scale: 2);
+    return Image.asset('images/level_5.png', scale: 2.1);
   }
 }
 
@@ -67,27 +67,27 @@ showLevelText(Weather weather) {
   if (weather.low > 0.0) {
     return const Text(
       '現在、水道管凍結の心配はありません',
-      style: TextStyle(fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 16),
     );
   } else if (weather.low > -3.0) {
     return const Text(
       '現在、水道管凍結の可能性があります',
-      style: TextStyle(fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 16),
     );
   } else if (weather.low > -5.0) {
     return const Text(
       '現在、水道管凍結に注意です',
-      style: TextStyle(fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 16),
     );
   } else if (weather.low > -7.0) {
     return const Text(
       '現在、水道管凍結に警戒です',
-      style: TextStyle(fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 16),
     );
   } else if (weather.low > -8.0) {
     return const Text(
       '現在、水道管の破裂に注意です',
-      style: TextStyle(fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 16),
     );
   }
 }

@@ -9,9 +9,13 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>ja_JP</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>ja</string>
+	</array>
 	<key>CFBundleDisplayName</key>
-	<string>Flutter Coding Test Skeleton</string>
+	<string>トウケツライフ</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -31,7 +35,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Required to post location information when posting photos and videos.</string>
+	<string>現在地の水道管凍結指数と天気情報の表示のために使用されます。</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

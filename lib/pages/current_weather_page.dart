@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_coding_test_skeleton/get_current_weather.dart';
 import 'package:flutter_coding_test_skeleton/pages/freezing_index_page.dart';
@@ -81,6 +82,30 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage> {
           margin: const EdgeInsets.all(5.0),
           child: Text("湿度: ${weather.humidity}%",
               style: const TextStyle(fontWeight: FontWeight.bold))),
+      Container(
+          margin: const EdgeInsets.only(top: 40),
+          child: FloatingActionButton.extended(
+              icon: const Icon(Icons.help),
+              label: const Text('天気情報が表示されない場合',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () async {
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoAlertDialog(
+                        content: const Text(
+                            '天気情報が表示されない場合は\n「設定」からアプリの位置情報をオンにしてください。'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    });
+              })),
     ]);
   }
 }

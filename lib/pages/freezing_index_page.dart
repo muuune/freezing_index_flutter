@@ -83,7 +83,8 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
                     builder: (BuildContext context) {
                       return CupertinoAlertDialog(
                         title: const Text('毎日21時に水道管凍結指数を通知しても良いですか?'),
-                        content: const Text('いつでもオフにすることができます。'),
+                        content: const Text(
+                            '\n※通知を行う際は、このアプリを終了しないようお願いします。\nアプリが終了してしまうと、天気情報を取得することができなくなります。\n必ずバックグラウンド状態にしておいてください。\n\n通知が届かない場合は「設定」からアプリの通知をオンにしてください。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -140,16 +141,40 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
                   });
             }),
       ),
+      Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          child: FloatingActionButton.extended(
+              icon: const Icon(Icons.help),
+              label: const Text('凍結指数が表示されない場合',
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () async {
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CupertinoAlertDialog(
+                        content: const Text(
+                            '凍結指数が表示されない場合は\n「設定」からアプリの位置情報をオンにしてください。'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    });
+              })),
     ]);
   }
 
   // 1分ごとに定期実行
   Future<void> mainLoop() async {
     while (true) {
-      await Future<void>.delayed(const Duration(minutes: 1));
+      await Future<void>.delayed(const Duration(minutes: 10));
       setState(() {
         getCurrentWeather();
-        print('1分経ちました');
+        print('10分経ちました');
       });
     }
   }
