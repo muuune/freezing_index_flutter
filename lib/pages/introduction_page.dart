@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
@@ -40,8 +41,9 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
   }
 
   void _layout(_) {
-    Future.delayed(const Duration(seconds: 1));
-    showTutorial(context);
+    Future.delayed(Duration(seconds: 1), () {
+      showTutorial();
+    });
   }
 
   @override
@@ -307,7 +309,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
     );
   }
 
-  void showTutorial(BuildContext context) async {
+  void showTutorial() async {
     final pref = await SharedPreferences.getInstance();
 
     tutorialCoachMark = TutorialCoachMark(

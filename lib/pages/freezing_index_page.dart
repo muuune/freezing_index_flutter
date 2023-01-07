@@ -22,6 +22,10 @@ class FreezingIndexPage extends StatefulWidget {
 }
 
 class _FreezingIndexPage extends State<FreezingIndexPage> {
+  void main() {
+    mainLoop();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -172,10 +176,10 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
   // 1分ごとに定期実行
   Future<void> mainLoop() async {
     while (true) {
-      await Future<void>.delayed(const Duration(minutes: 10));
+      await Future<void>.delayed(const Duration(minutes: 1));
       setState(() {
         getCurrentWeather();
-        print('10分経ちました');
+        print('1分経ちました');
       });
     }
   }
