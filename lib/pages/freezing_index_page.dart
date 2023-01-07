@@ -42,6 +42,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
       builder: (context, snapshot) {
         _weather = snapshot.data;
         if (snapshot.data == null) {
+          //読み込み中 表示されない場合は...に変更する
           return const CircularProgressIndicator(
             color: Colors.blue,
           );
@@ -212,7 +213,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
       requestSoundPermission: false,
     );
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_notification');
+        AndroidInitializationSettings('@mipmap/ic_notification');
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
@@ -265,7 +266,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
           priority: Priority.high,
           ongoing: true,
           styleInformation: BigTextStyleInformation(message),
-          icon: 'ic_notification',
+          icon: '@mipmap/ic_notification',
         ),
         iOS: const DarwinNotificationDetails(
           badgeNumber: 1,

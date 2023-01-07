@@ -8,7 +8,7 @@ String? longitude;
 
 // 現在地の緯度・経度を取得し、OpenWeatherから天気情報を取得する
 Future getCurrentWeather() async {
-  String apiKey = "985daafdbc6c68ae20ede36ee513bc9a";
+  String apiKey = "ここにAPIキー";
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -39,7 +39,7 @@ Future getCurrentWeather() async {
   longitude = "$long";
 
   var url =
-      "https://api.openweathermap.org/data/2.5/weather?lat=39.796736&lon=141.1392002&APPID=$apiKey&units=metric";
+      "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&APPID=$apiKey&units=metric";
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
