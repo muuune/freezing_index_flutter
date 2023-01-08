@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      // チュートリアル画面に移動
       home: const FirstPage(),
     );
   }

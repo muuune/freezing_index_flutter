@@ -25,6 +25,7 @@ dependencies:
   shared_preferences: ^2.0.15
   tutorial_coach_mark: ^1.2.4
   flutter_launcher_icons: ^0.11.0
+  flutter_native_splash: ^2.2.16
 
 dev_dependencies:
   flutter_test:
@@ -48,7 +49,18 @@ flutter:
 flutter_icons:       
   android: true
   ios: true
-  image_path: "images/app_icon.png"
+  image_path_ios: "images/app_icon.png"
+  image_path_android: "images/app_icon_512.png"
+  adaptive_icon_background: 'images/app_icon_432.png'
+  adaptive_icon_foreground: 'images/app_icon_432.png'
+
+flutter_native_splash:
+  image: images/app_icon_splash.png
+  color: "ffffff"
+  fill: false
+  android_12:
+    image: images/app_icon_432.png
+    icon_background_color: "ffffff"
 
   # To add assets to your application, add an assets section, like this:
   # assets:

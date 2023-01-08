@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/get_current_weather.dart';
 import 'package:freezing_index_flutter/pages/current_weather_page.dart';
@@ -65,7 +67,7 @@ class _HomePage extends State<HomePage> {
     while (true) {
       await Future<void>.delayed(const Duration(minutes: 1));
       setState(() {
-        getCurrentWeather();
+        getCurrentWeather;
         print('1分経ちました');
       });
     }

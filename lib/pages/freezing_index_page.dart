@@ -21,7 +21,8 @@ class FreezingIndexPage extends StatefulWidget {
   State<FreezingIndexPage> createState() => _FreezingIndexPage();
 }
 
-class _FreezingIndexPage extends State<FreezingIndexPage> {
+class _FreezingIndexPage extends State<FreezingIndexPage>
+    with WidgetsBindingObserver {
   void main() {
     mainLoop();
   }
@@ -31,6 +32,14 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
     super.initState();
     _init();
     _requestPermissions();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    print("dispose");
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
   }
 
   Weather? _weather;
@@ -103,7 +112,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
                               final tz.TZDateTime now =
                                   tz.TZDateTime.now(tz.local);
                               _registerMessage(
-                                hour: now.hour,
+                                hour: 23,
                                 minutes: now.minute + 1,
                                 message: NotificationLevelText,
                               );
@@ -178,9 +187,28 @@ class _FreezingIndexPage extends State<FreezingIndexPage> {
     while (true) {
       await Future<void>.delayed(const Duration(minutes: 1));
       setState(() {
-        getCurrentWeather();
+        getCurrentWeather;
         print('1分経ちました');
       });
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print("stete = $state");
+    switch (state) {
+      case AppLifecycleState.inactive:
+        print('非アクティブになったときの処理');
+        break;
+      case AppLifecycleState.paused:
+        print('停止されたときの処理');
+        break;
+      case AppLifecycleState.resumed:
+        print('再開されたときの処理');
+        break;
+      case AppLifecycleState.detached:
+        print('破棄されたときの処理');
+        break;
     }
   }
 

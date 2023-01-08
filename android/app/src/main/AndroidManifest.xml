@@ -4,9 +4,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE" />
    <application
-        android:label="flutter_coding_test_skeleton"
+        android:label="トウケツライフ"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_notification"
+        android:icon="@mipmap/ic_launcher"
         android:resource="@color/ic_notification_color">
         <activity
             android:showWhenLocked="true"

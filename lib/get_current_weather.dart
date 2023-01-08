@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -6,7 +7,7 @@ import 'models/weather.dart';
 String? latitude;
 String? longitude;
 
-// 現在地の緯度・経度を取得し、OpenWeatherから天気情報を取得する
+// Geolocatorで現在地の緯度・経度を取得し、OpenWeatherから天気情報を取得する
 Future getCurrentWeather() async {
   String apiKey = "ここにAPIキー";
   bool serviceEnabled;
