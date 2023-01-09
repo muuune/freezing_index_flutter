@@ -187,7 +187,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     ]);
   }
 
-  //今夜の水道管凍結指数を計算している。21時現在の気温のため通常より-2°下げた計算となっている。
+  //今夜の水道管凍結指数を計算している。21時現在の気温のため通常より-2°下げた計算になっている。例)-1°の場合-3°とみなす
   notificationText(Weather weather) {
     if (weather.low > 1.0) {
       return NotificationLevelText = '今夜は水道管凍結の心配はありません';
@@ -208,6 +208,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     await _initializeNotification();
   }
 
+  //現在のタイムゾーンを設定
   Future<void> _configureLocalTimeZone() async {
     tz.initializeTimeZones();
     final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
@@ -221,6 +222,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
       requestBadgePermission: false,
       requestSoundPermission: false,
     );
+    //Androidの通知アイコンの設定
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_notification');
 
@@ -232,10 +234,12 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
+  //通知のキャンセル
   Future<void> _cancelNotification() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }
 
+  //iOSの通知許可リクエストを送る
   Future<void> _requestPermissions() async {
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
@@ -247,6 +251,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         );
   }
 
+  //通知の開始 本アプリでは毎日21時に通知がいくよう設定
   Future<void> _registerMessage({
     required int hour,
     //required int minutes,
@@ -288,7 +293,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     );
   }
 
-// 各ステータスにおけるバックグラウンド実行(1分おき)
+// 各ステータスにおけるバックグラウンド実行(10分おき)
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     print("stete = $state");
@@ -299,8 +304,11 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           await Future<void>.delayed(const Duration(minutes: 1));
           if (mounted) {
             setState(() {
-              getCurrentWeather;
               print('1分経ったので、再取得します(非アクティブ状態)');
+              getCurrentWeather;
+              notificationText;
+              showLevelIcon;
+              showLevelText;
             });
           }
         }
@@ -310,8 +318,11 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           await Future<void>.delayed(const Duration(minutes: 1));
           if (mounted) {
             setState(() {
-              getCurrentWeather;
               print('1分経ったので、再取得します(停止状態)');
+              getCurrentWeather;
+              notificationText;
+              showLevelIcon;
+              showLevelText;
             });
           }
         }
@@ -321,8 +332,11 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           await Future<void>.delayed(const Duration(minutes: 1));
           if (mounted) {
             setState(() {
-              getCurrentWeather;
               print('1分経ったので、再取得します(再開状態)');
+              getCurrentWeather;
+              notificationText;
+              showLevelIcon;
+              showLevelText;
             });
           }
         }
@@ -332,8 +346,11 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           await Future<void>.delayed(const Duration(minutes: 1));
           if (mounted) {
             setState(() {
-              getCurrentWeather;
               print('1分経ったので、再取得します(破棄状態)');
+              getCurrentWeather;
+              notificationText;
+              showLevelIcon;
+              showLevelText;
             });
           }
         }

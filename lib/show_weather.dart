@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models/weather.dart';
 
-// OpenWeatherから取得したweatherIDから、天気アイコンを表示
+//OpenWeatherから取得したweatherIDから、天気アイコンを表示
 showWeatherIcon(Weather weather) {
   switch (weather.id) {
     case 'Clouds':
@@ -47,7 +47,7 @@ showWeatherIcon(Weather weather) {
   }
 }
 
-// OpenWeatherから取得した現在地の最低気温に応じて、水道管凍結指数アイコンを表示
+//OpenWeatherから取得した現在地の気温に応じて、水道管凍結指数アイコンを表示
 showLevelIcon(Weather weather) {
   if (weather.low > 0.0) {
     return Image.asset('images/level_1.png', scale: 1.8);
@@ -62,7 +62,7 @@ showLevelIcon(Weather weather) {
   }
 }
 
-// OpenWeatherから取得した現在地の最低気温に応じて、水道管凍結指数(Text)を表示
+//OpenWeatherから取得した現在地の気温に応じて、水道管凍結指数(Text)を表示
 showLevelText(Weather weather) {
   if (weather.low > 0.0) {
     return const Text(

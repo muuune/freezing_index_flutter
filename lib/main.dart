@@ -13,9 +13,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: {'/first': (context) => HomePage()},
+      routes: {'/first': (context) => const HomePage()},
       title: 'トウケツライフ',
       theme: ThemeData(
         primarySwatch: Colors.blue,

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/get_current_weather.dart';
 import 'package:freezing_index_flutter/pages/current_weather_page.dart';
@@ -23,21 +22,20 @@ class _HomePage extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    mainLoop();
   }
 
   // 選択中フッターメニューのインデックスを一時保存する用変数
   int selectedIndex = 0;
-  String LevelText = '位置情報をONにすると表示されます';
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   // 切り替える画面のリスト
   List<Widget> display = [
-    FreezingIndexPage(),
-    CurrentWeatherPage(),
+    const FreezingIndexPage(),
+    const CurrentWeatherPage(),
   ];
 
+  //フッターメニュー
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,16 +58,5 @@ class _HomePage extends State<HomePage> {
           },
           fixedColor: Colors.blue,
         ));
-  }
-
-  //1分ごとにバックグラウンド実行
-  Future<void> mainLoop() async {
-    while (true) {
-      await Future<void>.delayed(const Duration(minutes: 1));
-      setState(() {
-        getCurrentWeather;
-        print('1分経ちました');
-      });
-    }
   }
 }

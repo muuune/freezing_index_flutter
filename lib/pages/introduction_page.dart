@@ -24,6 +24,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
   late TutorialCoachMark tutorialCoachMark;
   List<TargetFocus> targets = [];
 
+  //チュートリアル画面のシーンを抽出するためのキー
   final GlobalKey key1 = GlobalKey();
   final GlobalKey key2 = GlobalKey();
   final GlobalKey key3 = GlobalKey();
@@ -40,8 +41,9 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
     super.initState();
   }
 
+  //1秒後にチュートリアル画面を表示する
   void _layout(_) {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       showTutorial();
     });
   }
@@ -65,18 +67,18 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
             margin: const EdgeInsets.all(10.0),
             child: const Text(
               '現在地の水道管凍結指数',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
           ),
           Container(
             key: key1,
             margin: const EdgeInsets.all(10.0),
-            child: Image.asset('images/level_3.png', scale: 2),
+            child: Image.asset('images/level_4.png', scale: 2.3),
           ),
           Container(
             margin: const EdgeInsets.all(10.0),
             child: const Text('現在、水道管凍結に注意です',
-                style: const TextStyle(fontSize: 17)),
+                style: const TextStyle(fontSize: 15)),
           ),
           Container(
             margin: const EdgeInsets.only(top: 20),
@@ -94,7 +96,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                 key: key3,
                 heroTag: "hero02",
                 icon: const Icon(Icons.notifications_off),
-                label: const Text('通知をオフにする',
+                label: const Text('  通知をオフにする  ',
                     style: const TextStyle(fontWeight: FontWeight.bold)),
                 onPressed: () {}),
           ),
@@ -102,7 +104,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
               margin: const EdgeInsets.only(bottom: 10),
               child: FloatingActionButton.extended(
                   icon: const Icon(Icons.help),
-                  label: const Text('凍結指数が表示されない場合',
+                  label: const Text(' 通知が届かない場合 ',
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                   onPressed: () async {
                     showCupertinoDialog(
@@ -128,11 +130,11 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
   void initTargets() {
     targets.add(
       TargetFocus(
-        color: Colors.blue, // マスクカラー。デフォルトは赤。
-        keyTarget: key1, // ターゲットキーを指定。
+        color: Colors.blue, // マスクカラー。デフォルトは赤
+        keyTarget: key1, // ターゲットキーを指定
         contents: [
           TargetContent(
-            align: ContentAlign.bottom, // ターゲットウィジェットのどちら側にチュートリアルを出すか。
+            align: ContentAlign.bottom, // ターゲットウィジェットのどちら側にチュートリアルを出すか
             builder: (context, controller) {
               return Container(
                 margin: const EdgeInsets.only(top: 50),
@@ -164,11 +166,11 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
     );
     targets.add(
       TargetFocus(
-        color: Colors.blue, // マスクカラー。デフォルトは赤。
-        keyTarget: key2, // ターゲットキーを指定。
+        color: Colors.blue,
+        keyTarget: key2,
         contents: [
           TargetContent(
-            align: ContentAlign.top, // ターゲットウィジェットのどちら側にチュートリアルを出すか。
+            align: ContentAlign.top,
             builder: (context, controller) {
               return Container(
                 child: Column(
@@ -197,7 +199,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                         onPressed: () {
                           controller.previous(); // 「チュートリアル戻る」ボタン
                         },
-                        child: Icon(Icons.chevron_left),
+                        child: const Icon(Icons.chevron_left),
                       ),
                     ),
                   ],
@@ -212,11 +214,11 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
     );
     targets.add(
       TargetFocus(
-        color: Colors.blue, // マスクカラー。デフォルトは赤。
-        keyTarget: key3, // ターゲットキーを指定。
+        color: Colors.blue,
+        keyTarget: key3,
         contents: [
           TargetContent(
-            align: ContentAlign.top, // ターゲットウィジェットのどちら側にチュートリアルを出すか。
+            align: ContentAlign.top,
             builder: (context, controller) {
               return Container(
                 child: Column(
@@ -230,10 +232,10 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                           color: Colors.white,
                           fontSize: 20.0),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "水抜きの時期になったら再度通知をオンにしてくださいね。",
+                        "水抜きの季節になったら再度通知をオンにしてくださいね。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -243,9 +245,9 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                         style: ElevatedButton.styleFrom(
                             primary: Colors.white, onPrimary: Colors.blue),
                         onPressed: () {
-                          controller.previous(); // 「チュートリアル戻る」ボタン
+                          controller.previous();
                         },
-                        child: Icon(Icons.chevron_left),
+                        child: const Icon(Icons.chevron_left),
                       ),
                     ),
                   ],
@@ -261,11 +263,11 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
 
     targets.add(
       TargetFocus(
-        color: Colors.blue, // マスクカラー。デフォルトは赤。
-        keyTarget: key4, // ターゲットキーを指定。
+        color: Colors.blue,
+        keyTarget: key4,
         contents: [
           TargetContent(
-            align: ContentAlign.top, // ターゲットウィジェットのどちら側にチュートリアルを出すか。
+            align: ContentAlign.top,
             builder: (context, controller) {
               return Container(
                 child: Column(
@@ -279,8 +281,8 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                           color: Colors.white,
                           fontSize: 20.0),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10.0),
                       child: Text(
                         "天気情報も合わせて確認してみてください！\n\nこの後表示される、位置情報と通知の許可は、必ずオンにしていただくようお願いいたします。",
                         style: TextStyle(color: Colors.white),
@@ -292,9 +294,9 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                         style: ElevatedButton.styleFrom(
                             primary: Colors.white, onPrimary: Colors.blue),
                         onPressed: () {
-                          controller.previous(); // 「チュートリアル戻る」ボタン
+                          controller.previous();
                         },
-                        child: Icon(Icons.chevron_left),
+                        child: const Icon(Icons.chevron_left),
                       ),
                     ),
                   ],

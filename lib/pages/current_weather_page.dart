@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/get_current_weather.dart';
@@ -9,7 +8,6 @@ import '../models/weather.dart';
 
 class CurrentWeatherPage extends StatefulWidget with WidgetsBindingObserver {
   const CurrentWeatherPage({super.key});
-
   @override
   State<CurrentWeatherPage> createState() => _CurrentWeatherPage();
 }
