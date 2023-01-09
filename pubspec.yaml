@@ -55,11 +55,11 @@ flutter_icons:
   adaptive_icon_foreground: 'images/app_icon_432.png'
 
 flutter_native_splash:
-  image: images/app_icon_splash.png
+  image: images/app_logo.png
   color: "ffffff"
   fill: false
   android_12:
-    image: images/app_icon_432.png
+    image: images/app_logo.png
     icon_background_color: "ffffff"
 
   # To add assets to your application, add an assets section, like this:

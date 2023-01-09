@@ -39,8 +39,18 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
       builder: (context, snapshot) {
         _weather = snapshot.data;
         if (snapshot.data == null) {
-          return const CircularProgressIndicator(
-            color: Colors.blue,
+          return const Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(children: [
+              TextSpan(
+                text: "天気情報取得中...\n\n",
+                style: TextStyle(fontSize: 16),
+              ),
+              TextSpan(
+                  text: "しばらく経っても表示されない場合は\n", style: TextStyle(fontSize: 12)),
+              TextSpan(
+                  text: "「設定」から位置情報をオンにしてください", style: TextStyle(fontSize: 12)),
+            ]),
           );
         } else {
           return weatherBox(_weather!);
@@ -61,7 +71,7 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
           Text(' 現在の天気情報',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 21,
               ))
         ]),
       ),
@@ -69,40 +79,44 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
         child: showWeatherIcon(weather),
       ),
       Container(
-          margin: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(3.0),
           child: Text(weather.name,
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 25))),
       Container(
-          margin: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(3.0),
           child: Text(
             "${weather.temp}°",
             style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 60,
+                fontSize: 70,
                 fontFamily: 'Montserrat'),
           )),
       Container(
-          margin: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(3.0),
           child: Text(weather.description,
-              style: const TextStyle(fontWeight: FontWeight.bold))),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 17))),
       Container(
-          margin: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(3.0),
           child: Text("体感温度: ${weather.feelsLike}°",
-              style: const TextStyle(fontWeight: FontWeight.bold))),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 17))),
       Container(
-          margin: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(3.0),
           child: Text("気圧: ${weather.pressure}hPa",
-              style: const TextStyle(fontWeight: FontWeight.bold))),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 17))),
       Container(
-          margin: const EdgeInsets.all(5.0),
+          margin: const EdgeInsets.all(3.0),
           child: Text("湿度: ${weather.humidity}%",
-              style: const TextStyle(fontWeight: FontWeight.bold))),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 17))),
       Container(
-          margin: const EdgeInsets.only(top: 40),
+          margin: const EdgeInsets.only(top: 30),
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.help),
-              label: const Text('天気情報が表示されない場合',
+              label: const Text('天気情報について',
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
                 showCupertinoDialog(
@@ -110,7 +124,7 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
                     builder: (BuildContext context) {
                       return CupertinoAlertDialog(
                         content: const Text(
-                            '天気情報が表示されない場合は\n「設定」からアプリの位置情報をオンにしてください。'),
+                            '天気情報はOpenWeatherMapから取得しています。\n正確な天気情報ではないので、あくま参考までにお願いします。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {

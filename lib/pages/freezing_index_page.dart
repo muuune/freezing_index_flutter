@@ -16,17 +16,12 @@ import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class FreezingIndexPage extends StatefulWidget {
   const FreezingIndexPage({super.key});
-
   @override
   State<FreezingIndexPage> createState() => _FreezingIndexPage();
 }
 
 class _FreezingIndexPage extends State<FreezingIndexPage>
     with WidgetsBindingObserver {
-  void main() {
-    mainLoop();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -56,8 +51,18 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         _weather = snapshot.data;
         if (snapshot.data == null) {
           //読み込み中 表示されない場合は...に変更する
-          return const CircularProgressIndicator(
-            color: Colors.blue,
+          return const Text.rich(
+            textAlign: TextAlign.center,
+            TextSpan(children: [
+              TextSpan(
+                text: "天気情報取得中...\n\n",
+                style: TextStyle(fontSize: 16),
+              ),
+              TextSpan(
+                  text: "しばらく経っても表示されない場合は\n", style: TextStyle(fontSize: 12)),
+              TextSpan(
+                  text: "「設定」から位置情報をオンにしてください", style: TextStyle(fontSize: 12)),
+            ]),
           );
         } else {
           return weatherBox(_weather!);
@@ -74,7 +79,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         margin: const EdgeInsets.all(20.0),
         child: const Text(
           '現在地の水道管凍結指数',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
       ),
       Container(
@@ -82,7 +87,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         child: showLevelIcon(weather),
       ),
       Container(
-        margin: const EdgeInsets.only(top: 20),
+        margin: const EdgeInsets.only(top: 10),
         child: showLevelText(weather),
       ),
       Container(
@@ -113,7 +118,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                                   tz.TZDateTime.now(tz.local);
                               _registerMessage(
                                 hour: 23,
-                                minutes: now.minute + 1,
+                                //minutes: , //now.minute + 1,
                                 message: NotificationLevelText,
                               );
                             },
@@ -159,15 +164,15 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           margin: const EdgeInsets.only(bottom: 10),
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.help),
-              label: const Text('凍結指数が表示されない場合',
+              label: const Text(' 通知が届かない場合 ',
                   style: const TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
                 showCupertinoDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return CupertinoAlertDialog(
-                        content: const Text(
-                            '凍結指数が表示されない場合は\n「設定」からアプリの位置情報をオンにしてください。'),
+                        content:
+                            const Text('通知が届かない場合は\n「設定」からアプリの通知をオンにしてください。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -182,36 +187,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     ]);
   }
 
-  // 1分ごとに定期実行
-  Future<void> mainLoop() async {
-    while (true) {
-      await Future<void>.delayed(const Duration(minutes: 1));
-      setState(() {
-        getCurrentWeather;
-        print('1分経ちました');
-      });
-    }
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    print("stete = $state");
-    switch (state) {
-      case AppLifecycleState.inactive:
-        print('非アクティブになったときの処理');
-        break;
-      case AppLifecycleState.paused:
-        print('停止されたときの処理');
-        break;
-      case AppLifecycleState.resumed:
-        print('再開されたときの処理');
-        break;
-      case AppLifecycleState.detached:
-        print('破棄されたときの処理');
-        break;
-    }
-  }
-
+  //今夜の水道管凍結指数を計算している。21時現在の気温のため通常より-2°下げた計算となっている。
   notificationText(Weather weather) {
     if (weather.low > 1.0) {
       return NotificationLevelText = '今夜は水道管凍結の心配はありません';
@@ -226,6 +202,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     }
   }
 
+  //ローカル通知設定
   Future<void> _init() async {
     await _configureLocalTimeZone();
     await _initializeNotification();
@@ -272,7 +249,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
 
   Future<void> _registerMessage({
     required int hour,
-    required int minutes,
+    //required int minutes,
     required message,
   }) async {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
@@ -282,7 +259,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
       now.month,
       now.day,
       hour,
-      minutes,
+      //minutes,
     );
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -309,5 +286,57 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
+  }
+
+// 各ステータスにおけるバックグラウンド実行(1分おき)
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    print("stete = $state");
+    switch (state) {
+      case AppLifecycleState.inactive:
+        print('非アクティブになったときの処理');
+        while (true) {
+          await Future<void>.delayed(const Duration(minutes: 1));
+          if (mounted) {
+            setState(() {
+              getCurrentWeather;
+              print('1分経ったので、再取得します(非アクティブ状態)');
+            });
+          }
+        }
+      case AppLifecycleState.paused:
+        print('停止されたときの処理');
+        while (true) {
+          await Future<void>.delayed(const Duration(minutes: 1));
+          if (mounted) {
+            setState(() {
+              getCurrentWeather;
+              print('1分経ったので、再取得します(停止状態)');
+            });
+          }
+        }
+      case AppLifecycleState.resumed:
+        print('再開されたときの処理');
+        while (true) {
+          await Future<void>.delayed(const Duration(minutes: 1));
+          if (mounted) {
+            setState(() {
+              getCurrentWeather;
+              print('1分経ったので、再取得します(再開状態)');
+            });
+          }
+        }
+      case AppLifecycleState.detached:
+        print('破棄されたときの処理');
+        while (true) {
+          await Future<void>.delayed(const Duration(minutes: 1));
+          if (mounted) {
+            setState(() {
+              getCurrentWeather;
+              print('1分経ったので、再取得します(破棄状態)');
+            });
+          }
+        }
+    }
   }
 }
