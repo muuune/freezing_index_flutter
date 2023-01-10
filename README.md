@@ -1,6 +1,6 @@
 # 【Flutter】 トウケツライフ
 
-寒冷地では、寒さによって水道管が凍ってしまうことから、毎晩の水抜きは当たり前のように行われています。
+寒冷地では、寒さによって水道管が凍ってしまうことから、毎晩の水抜きは当たり前のように行われています🚰
 
 しかし、寒冷地に引っ越してきた大学生にとって「水抜き」とは全く未知のこと。
 
@@ -26,7 +26,7 @@ Geolocatorで、現在地の緯度・経度を取得。
 
 # 開発する上で使用したAPI・パッケージ
 
-* OpenWeatherMap API
+* OpenWeatherMap API (https://openweathermap.org/)
 * geolocator : ^9.0.2
 * flutter_local_notifications: ^13.0.0
 * timezone: ^0.9.1
@@ -39,41 +39,15 @@ Geolocatorで、現在地の緯度・経度を取得。
 * flutter_launcher_icons: ^0.11.0
 * flutter_native_splash: ^2.2.16
 
-# Installation
+# 開発する上で苦労した点
 
-Requirementで列挙したライブラリなどのインストール方法を説明する
-
-```bash
-pip install huga_package
-```
-
-# Usage
-
-DEMOの実行方法など、"hoge"の基本的な使い方を説明する
-
-```bash
-git clone https://github.com/hoge/~
-cd examples
-python demo.py
-```
+* アプリライフサイクルを理解し、inactive/paused/resumed/detached時においても天気情報や指数の計算を常時処理できるよう、実装したこと。
+* 毎晩、今夜の水道管凍結指数の通知が届くように実装した点。
 
 # Note
 
-注意点などがあれば書く
+寒冷地で新生活を送る大学生をターゲットに、アプリの開発を行いました。
 
-# Author
+アプリのデザインや機能面は随時改善していきます🚰
 
-作成情報を列挙する
-
-* 作成者
-* 所属
-* E-mail
-
-# License
-ライセンスを明示する
-
-"hoge" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
-
-社内向けなら社外秘であることを明示してる
-
-"hoge" is Confidential.
+是非ダウンロードして使ってみてください！
