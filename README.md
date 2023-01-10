@@ -24,12 +24,20 @@ Geolocatorで、現在地の緯度・経度を取得。
 
 水抜きの防止にもつながります。
 
-# Requirement
+# 開発する上で使用したAPI・パッケージ
 
-"hoge"を動かすのに必要なライブラリなどを列挙する
-
-* huga 3.5.2
-* hogehuga 1.0.2
+* OpenWeatherMap API
+* geolocator : ^9.0.2
+* flutter_local_notifications: ^13.0.0
+* timezone: ^0.9.1
+* flutter_native_timezone: ^2.0.0
+* shared_preferences: ^2.0.15
+* tutorial_coach_mark: ^1.2.4
+* http: ^0.13.5
+* flutter_riverpod: ^2.1.3
+* dio: ^4.0.6
+* flutter_launcher_icons: ^0.11.0
+* flutter_native_splash: ^2.2.16
 
 # Installation
 

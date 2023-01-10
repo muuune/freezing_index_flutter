@@ -9,7 +9,7 @@ class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) => _showTutorial(context));
-    return Scaffold();
+    return const Scaffold();
   }
 
   void _showTutorial(BuildContext context) async {
@@ -19,7 +19,7 @@ class FirstPage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Tutorial(),
+          builder: (context) => const Tutorial(),
           fullscreenDialog: true,
         ),
       );
@@ -28,7 +28,7 @@ class FirstPage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => const HomePage(),
         ),
       );
     }
