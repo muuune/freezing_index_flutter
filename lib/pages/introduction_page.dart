@@ -152,7 +152,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     Padding(
                       padding: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "指数は、現在地の気温をもとに導き出しています。\n方角や風の計算はしていませんので、あくまで参考までに。",
+                        "水道管凍結指数は、現在地の気温をもとに導き出しています。\n方角や風の計算はしていませんので、あくまで参考までに。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),

@@ -117,7 +117,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                               final tz.TZDateTime now =
                                   tz.TZDateTime.now(tz.local);
                               _registerMessage(
-                                hour: 23,
+                                hour: 9,
                                 //minutes: , //now.minute + 1,
                                 message: NotificationLevelText,
                               );
