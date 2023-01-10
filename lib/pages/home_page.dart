@@ -39,6 +39,14 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(50.0),
+            child: AppBar(
+              title: const Text('トウケツライフ',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18)),
+              automaticallyImplyLeading: false,
+            )),
         body: display[selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
           items: const [

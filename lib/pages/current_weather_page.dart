@@ -77,7 +77,6 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
         child: showWeatherIcon(weather),
       ),
       Container(
-          margin: const EdgeInsets.all(3.0),
           child: Text(weather.name,
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 25))),

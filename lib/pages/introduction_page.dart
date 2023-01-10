@@ -51,6 +51,14 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(50.0),
+            child: AppBar(
+              title: const Text('トウケツライフ',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 18)),
+              automaticallyImplyLeading: false,
+            )),
         bottomNavigationBar: BottomNavigationBar(
           key: key4,
           items: const [

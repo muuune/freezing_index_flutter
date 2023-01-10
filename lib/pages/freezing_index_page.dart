@@ -76,7 +76,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     notificationText(weather);
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       Container(
-        margin: const EdgeInsets.all(20.0),
+        margin: const EdgeInsets.all(10.0),
         child: const Text(
           '現在地の水道管凍結指数',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -91,7 +91,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         child: showLevelText(weather),
       ),
       Container(
-          margin: const EdgeInsets.only(top: 40),
+          margin: const EdgeInsets.only(top: 30),
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.notification_add),
               label: const Text('毎日21時に通知する',
@@ -117,8 +117,8 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                               final tz.TZDateTime now =
                                   tz.TZDateTime.now(tz.local);
                               _registerMessage(
-                                hour: now.hour,
-                                minutes: now.minute + 1,
+                                hour: 19,
+                                //minutes: now.minute + 1,
                                 message: NotificationLevelText,
                               );
                             },
@@ -254,7 +254,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
   //通知の開始 本アプリでは毎日21時に通知がいくよう設定
   Future<void> _registerMessage({
     required int hour,
-    required int minutes,
+    //required int minutes,
     required message,
   }) async {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
@@ -264,7 +264,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
       now.month,
       now.day,
       hour,
-      minutes,
+      //minutes,
     );
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
