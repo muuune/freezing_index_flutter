@@ -1,16 +1,10 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
-import 'package:freezing_index_flutter/pages/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
-import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class Tutorial extends ConsumerStatefulWidget {
   const Tutorial({Key? key}) : super(key: key);
@@ -52,11 +46,10 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(50.0),
+            preferredSize: const Size.fromHeight(50.0),
             child: AppBar(
               title: const Text('トウケツライフ',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               automaticallyImplyLeading: false,
             )),
         bottomNavigationBar: BottomNavigationBar(
@@ -85,8 +78,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
           ),
           Container(
             margin: const EdgeInsets.all(10.0),
-            child: const Text('現在、水道管凍結に注意です',
-                style: const TextStyle(fontSize: 15)),
+            child: const Text('現在、水道管凍結に注意です', style: TextStyle(fontSize: 15)),
           ),
           Container(
             margin: const EdgeInsets.only(top: 20),
@@ -95,7 +87,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                 heroTag: "hero01",
                 icon: const Icon(Icons.notification_add),
                 label: const Text('毎日21時に通知する',
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 onPressed: () {}),
           ),
           Container(
@@ -105,7 +97,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                 heroTag: "hero02",
                 icon: const Icon(Icons.notifications_off),
                 label: const Text('  通知をオフにする  ',
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                    style: TextStyle(fontWeight: FontWeight.bold)),
                 onPressed: () {}),
           ),
           Container(
@@ -113,7 +105,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
               child: FloatingActionButton.extended(
                   icon: const Icon(Icons.help),
                   label: const Text(' 通知が届かない場合 ',
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                   onPressed: () async {
                     showCupertinoDialog(
                         context: context,
@@ -203,7 +195,8 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.white, onPrimary: Colors.blue),
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.white),
                         onPressed: () {
                           controller.previous(); // 「チュートリアル戻る」ボタン
                         },
@@ -251,7 +244,8 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.white, onPrimary: Colors.blue),
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.white),
                         onPressed: () {
                           controller.previous();
                         },
@@ -300,7 +294,8 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Colors.white, onPrimary: Colors.blue),
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.white),
                         onPressed: () {
                           controller.previous();
                         },
@@ -320,8 +315,6 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
   }
 
   void showTutorial() async {
-    final pref = await SharedPreferences.getInstance();
-
     tutorialCoachMark = TutorialCoachMark(
         targets: targets,
         textSkip: "SKIP",

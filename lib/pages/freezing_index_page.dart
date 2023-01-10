@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:freezing_index_flutter/main.dart';
 import 'package:freezing_index_flutter/models/weather.dart';
 import 'package:freezing_index_flutter/show_weather.dart';
 import '../get_current_weather.dart';
@@ -9,10 +8,6 @@ import 'package:timezone/timezone.dart' as tz;
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'current_weather_page.dart';
-import 'home_page.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class FreezingIndexPage extends StatefulWidget {
   const FreezingIndexPage({super.key});
@@ -27,13 +22,13 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     super.initState();
     _init();
     _requestPermissions();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     print("dispose");
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -43,6 +38,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
@@ -95,7 +91,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.notification_add),
               label: const Text('毎日21時に通知する',
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
                 showCupertinoDialog(
                     context: context,
@@ -117,7 +113,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                               final tz.TZDateTime now =
                                   tz.TZDateTime.now(tz.local);
                               _registerMessage(
-                                hour: 19,
+                                hour: 9,
                                 //minutes: now.minute + 1,
                                 message: NotificationLevelText,
                               );
@@ -133,7 +129,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         child: FloatingActionButton.extended(
             icon: const Icon(Icons.notifications_off),
             label: const Text('  通知をオフにする  ',
-                style: const TextStyle(fontWeight: FontWeight.bold)),
+                style: TextStyle(fontWeight: FontWeight.bold)),
             onPressed: () async {
               showCupertinoDialog(
                   context: context,
@@ -165,7 +161,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.help),
               label: const Text(' 通知が届かない場合 ',
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
                 showCupertinoDialog(
                     context: context,
@@ -211,8 +207,8 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
   //現在のタイムゾーンを設定
   Future<void> _configureLocalTimeZone() async {
     tz.initializeTimeZones();
-    final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(timeZoneName!));
+    final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
   }
 
   Future<void> _initializeNotification() async {
@@ -296,7 +292,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
 // 各ステータスにおけるバックグラウンド実行(10分おき)
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print("stete = $state");
+    print("state = $state");
     switch (state) {
       case AppLifecycleState.inactive:
         print('非アクティブになったときの処理');

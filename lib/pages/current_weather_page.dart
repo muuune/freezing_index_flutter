@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/get_current_weather.dart';
-import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
+
 import 'package:freezing_index_flutter/show_weather.dart';
 import '../models/weather.dart';
 
@@ -19,13 +19,13 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     print("dispose");
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -58,7 +58,6 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
     )));
   }
 
-  @override
   Widget weatherBox(Weather weather) {
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       Container(
@@ -114,7 +113,7 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.help),
               label: const Text('天気情報について',
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
                 showCupertinoDialog(
                     context: context,
@@ -139,7 +138,7 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
 // 各ステータスにおけるバックグラウンド実行(1分おき)
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print("stete = $state");
+    print("state = $state");
     switch (state) {
       case AppLifecycleState.inactive:
         print('非アクティブになったときの処理');
