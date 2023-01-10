@@ -117,8 +117,8 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                               final tz.TZDateTime now =
                                   tz.TZDateTime.now(tz.local);
                               _registerMessage(
-                                hour: 9,
-                                //minutes: , //now.minute + 1,
+                                hour: now.hour,
+                                minutes: now.minute + 1,
                                 message: NotificationLevelText,
                               );
                             },
@@ -254,7 +254,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
   //通知の開始 本アプリでは毎日21時に通知がいくよう設定
   Future<void> _registerMessage({
     required int hour,
-    //required int minutes,
+    required int minutes,
     required message,
   }) async {
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
@@ -264,7 +264,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
       now.month,
       now.day,
       hour,
-      //minutes,
+      minutes,
     );
 
     await flutterLocalNotificationsPlugin.zonedSchedule(

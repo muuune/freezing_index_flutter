@@ -12,6 +12,8 @@
 
 ![ezgif-4-128466680a](https://user-images.githubusercontent.com/74311952/211473419-b025e790-b6ef-4799-a3ef-f08524b83d66.gif)
 
+![ezgif-4-5239fa1fc5](https://user-images.githubusercontent.com/74311952/211474547-d7569275-aa13-41b3-8759-782b5105a08b.gif)
+
 
 # アプリの概要
 
