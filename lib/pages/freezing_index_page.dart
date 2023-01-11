@@ -99,7 +99,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                       return CupertinoAlertDialog(
                         title: const Text('毎日21時に水道管凍結指数を通知しても良いですか?'),
                         content: const Text(
-                            '\n※通知を行う際は、このアプリを終了しないようお願いします。\nアプリが終了してしまうと、天気情報を取得することができなくなります。\n必ずバックグラウンド状態にしておいてください。\n\n通知が届かない場合は「設定」からアプリの通知をオンにしてください。'),
+                            '\n※通知を行う際は、このアプリを切らないようお願いします。\nアプリが切られると、天気情報を取得することができなくなります。\nアプリは切らず、バックグラウンド状態にしておいてください。\n\n通知が届かない場合は「設定」からアプリの通知をオンにしてください。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -167,8 +167,8 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                     context: context,
                     builder: (BuildContext context) {
                       return CupertinoAlertDialog(
-                        content:
-                            const Text('通知が届かない場合は\n「設定」からアプリの通知をオンにしてください。'),
+                        content: const Text(
+                            '通知が届かない場合は\n「設定」からアプリの通知をオンにしてください。\n\nまた、同じ通知が続く場合はアプリを切っている可能性があります。アプリを切ると天気情報を取得できません。\nアプリは切らず、バックグラウンド状態にしておいてください。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {

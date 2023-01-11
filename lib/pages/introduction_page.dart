@@ -187,7 +187,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     const Padding(
                       padding: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "通知を見るだけで、今夜の水抜きが必要かどうか確認できます。 \n水抜き忘れの防止にもなるのでおすすめです。\n\n※通知を行う際は、このアプリを終了しないようお願いします。\nアプリが終了してしまうと、天気情報を取得することができなくなります。\n必ずバックグラウンド状態にしておいてください。",
+                        "通知を見るだけで、今夜の水抜きが必要かどうか確認できます。 \n水抜き忘れの防止にもなるのでおすすめです。\n\n※通知を行う際は、このアプリを切らないようお願いします。\nアプリが切られると、天気情報を取得することができなくなります。\nアプリは切らず、バックグラウンド状態にしておいてください。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
