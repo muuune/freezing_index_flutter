@@ -5,12 +5,11 @@ import 'package:http/http.dart' as http;
 import 'models/weather.dart';
 
 // Geolocatorで現在地の緯度・経度を取得し、それをもとにOpenWeatherMapから天気情報を取得する
-
 String? latitude;
 String? longitude;
 
 Future getCurrentWeather() async {
-  String apiKey = "985daafdbc6c68ae20ede36ee513bc9a"; // ここにAPIキーを入力する
+  String apiKey = "ここにAPIキー"; // ここにAPIキーを入力する
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -40,9 +39,9 @@ Future getCurrentWeather() async {
   latitude = "$lat";
   longitude = "$long";
 
-  //APIキーと現在地の緯度経度からOpenWeatherMapから天気情報を取得
+  //APIキーと現在地の緯度・経度からOpenWeatherMapから天気情報を取得
   var url =
-      "https://api.openweathermap.org/data/2.5/weather?lat=39.7523577&lon=141.1000932&APPID=$apiKey&units=metric";
+      "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&APPID=$apiKey&units=metric";
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {

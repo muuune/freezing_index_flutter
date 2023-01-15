@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -86,7 +85,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                 key: key2,
                 heroTag: "hero01",
                 icon: const Icon(Icons.notification_add),
-                label: const Text('毎日21時に通知する',
+                label: const Text('毎日22時に確認通知を送る',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 onPressed: () {}),
           ),
@@ -96,7 +95,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                 key: key3,
                 heroTag: "hero02",
                 icon: const Icon(Icons.notifications_off),
-                label: const Text('  通知をオフにする  ',
+                label: const Text('       通知をオフにする       ',
                     style: TextStyle(fontWeight: FontWeight.bold)),
                 onPressed: () {}),
           ),
@@ -104,26 +103,9 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
               margin: const EdgeInsets.only(bottom: 10),
               child: FloatingActionButton.extended(
                   icon: const Icon(Icons.help),
-                  label: const Text(' 通知が届かない場合 ',
+                  label: const Text('     通知が届かない場合     ',
                       style: TextStyle(fontWeight: FontWeight.bold)),
-                  onPressed: () async {
-                    showCupertinoDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CupertinoAlertDialog(
-                            content: const Text(
-                                '凍結指数が表示されない場合は\n「設定」からアプリの位置情報をオンにしてください。'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          );
-                        });
-                  })),
+                  onPressed: () async {})),
         ])));
   }
 
@@ -178,7 +160,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const Text(
-                      "毎日21時に水道管凍結指数を\nお知らせします",
+                      "毎日22時に確認通知を送信します",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -187,7 +169,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     const Padding(
                       padding: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "通知を見るだけで、今夜の水抜きが必要かどうか確認できます。 \n水抜き忘れの防止にもなるのでおすすめです。\n\n※通知を行う際は、このアプリを切らないようお願いします。\nアプリが切られると、天気情報を取得することができなくなります。\nアプリは切らず、バックグラウンド状態にしておいてください。",
+                        "毎晩、忘れずに水道管凍結指数を確認できるよう、通知をお届けします。 \n水抜き忘れの防止にもなるので、設定することをおすすめします。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -286,7 +268,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     const Padding(
                       padding: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "天気情報も合わせて確認してみてください！\n\nこの後表示される、位置情報と通知の許可は、必ずオンにしていただくようお願いいたします。",
+                        "天気情報も合わせて確認してみてください！\n※この後表示される、位置情報と通知の許可は、必ずオンにしてください。アプリが実行されなくなります。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -314,6 +296,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
     );
   }
 
+  //キーターゲットをもとに、チュートリアルを表示する
   void showTutorial() async {
     tutorialCoachMark = TutorialCoachMark(
         targets: targets,
@@ -327,21 +310,5 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
           Navigator.pushNamed(context, '/first');
         })
       ..show(context: context);
-  }
-
-  Future<void> _registerMessage({
-    required int hour,
-    required int minutes,
-    required message,
-  }) async {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledDate = tz.TZDateTime(
-      tz.local,
-      now.year,
-      now.month,
-      now.day,
-      hour,
-      minutes,
-    );
   }
 }

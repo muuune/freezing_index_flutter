@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/pages/first_page.dart';
 import 'package:freezing_index_flutter/pages/home_page.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 

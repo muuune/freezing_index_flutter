@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/get_current_weather.dart';
-
 import 'package:freezing_index_flutter/show_weather.dart';
 import '../models/weather.dart';
 
@@ -120,7 +118,7 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
                     builder: (BuildContext context) {
                       return CupertinoAlertDialog(
                         content: const Text(
-                            '天気情報はOpenWeatherMapから取得しています。\n正確な天気情報ではないので、あくま参考までにお願いします。'),
+                            '天気情報はOpenWeatherMapから取得しています。\n正確な天気情報ではないので、参考までにお願いします。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -135,55 +133,17 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
     ]);
   }
 
-// 各ステータスにおけるバックグラウンド実行(1分おき)
+// アプリが再開された時に、天気情報を再取得する
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     print("state = $state");
     switch (state) {
       case AppLifecycleState.inactive:
-        print('非アクティブになったときの処理');
-        while (true) {
-          await Future<void>.delayed(const Duration(minutes: 1));
-          if (mounted) {
-            setState(() {
-              getCurrentWeather;
-              print('1分経ったので、再取得します(非アクティブ状態)');
-            });
-          }
-        }
       case AppLifecycleState.paused:
-        print('停止されたときの処理');
-        while (true) {
-          await Future<void>.delayed(const Duration(minutes: 1));
-          if (mounted) {
-            setState(() {
-              getCurrentWeather;
-              print('1分経ったので、再取得します(停止状態)');
-            });
-          }
-        }
       case AppLifecycleState.resumed:
-        print('再開されたときの処理');
-        while (true) {
-          await Future<void>.delayed(const Duration(minutes: 1));
-          if (mounted) {
-            setState(() {
-              getCurrentWeather;
-              print('1分経ったので、再取得します(再開状態)');
-            });
-          }
-        }
+        setState(() {});
+        break;
       case AppLifecycleState.detached:
-        print('破棄されたときの処理');
-        while (true) {
-          await Future<void>.delayed(const Duration(minutes: 1));
-          if (mounted) {
-            setState(() {
-              getCurrentWeather;
-              print('1分経ったので、再取得します(破棄状態)');
-            });
-          }
-        }
     }
   }
 }

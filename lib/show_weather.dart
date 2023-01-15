@@ -57,7 +57,7 @@ showLevelIcon(Weather weather) {
     return Image.asset('images/level_3.png', scale: 2.3);
   } else if (weather.low > -7.0) {
     return Image.asset('images/level_4.png', scale: 2.3);
-  } else if (weather.low > -8.0) {
+  } else {
     return Image.asset('images/level_5.png', scale: 2.3);
   }
 }
@@ -84,7 +84,7 @@ showLevelText(Weather weather) {
       '現在、水道管凍結に警戒です',
       style: TextStyle(fontSize: 15),
     );
-  } else if (weather.low > -8.0) {
+  } else {
     return const Text(
       '現在、水道管の破裂に注意です',
       style: TextStyle(fontSize: 15),

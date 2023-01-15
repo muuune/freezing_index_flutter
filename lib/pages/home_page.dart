@@ -1,16 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:freezing_index_flutter/get_current_weather.dart';
 import 'package:freezing_index_flutter/pages/current_weather_page.dart';
 import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
-import 'package:freezing_index_flutter/pages/introduction_page.dart';
-import 'package:timezone/data/latest.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import '../models/weather.dart';
-import 'package:introduction_screen/introduction_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,12 +15,12 @@ class _HomePage extends State<HomePage> {
     super.initState();
   }
 
-  // 選択中フッターメニューのインデックスを一時保存する用変数
+  //選択中フッターメニューのインデックスを一時保存する用変数
   int selectedIndex = 0;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  // 切り替える画面のリスト
+  //切り替える画面のリスト
   List<Widget> display = [
     const FreezingIndexPage(),
     const CurrentWeatherPage(),
@@ -42,9 +33,9 @@ class _HomePage extends State<HomePage> {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(50.0),
             child: AppBar(
+              centerTitle: true,
               title: const Text('トウケツライフ',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 18)),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               automaticallyImplyLeading: false,
             )),
         body: display[selectedIndex],

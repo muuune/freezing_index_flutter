@@ -12,6 +12,7 @@ class FirstPage extends StatelessWidget {
     return const Scaffold();
   }
 
+  //初回起動であればチュートリアル画面を、そうでなければホーム画面へ移動する
   void _showTutorial(BuildContext context) async {
     final pref = await SharedPreferences.getInstance();
 

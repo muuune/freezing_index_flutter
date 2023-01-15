@@ -46,7 +46,6 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
       builder: (context, snapshot) {
         _weather = snapshot.data;
         if (snapshot.data == null) {
-          //読み込み中 表示されない場合は...に変更する
           return const Text.rich(
             textAlign: TextAlign.center,
             TextSpan(children: [
@@ -57,7 +56,8 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
               TextSpan(
                   text: "しばらく経っても表示されない場合は\n", style: TextStyle(fontSize: 12)),
               TextSpan(
-                  text: "「設定」から位置情報をオンにしてください", style: TextStyle(fontSize: 12)),
+                  text: "「設定アプリ」から位置情報をオンにしてください",
+                  style: TextStyle(fontSize: 12)),
             ]),
           );
         } else {
@@ -69,7 +69,6 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
   }
 
   Widget weatherBox(Weather weather) {
-    notificationText(weather);
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       Container(
         margin: const EdgeInsets.all(10.0),
@@ -90,16 +89,16 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           margin: const EdgeInsets.only(top: 30),
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.notification_add),
-              label: const Text('毎日21時に通知する',
+              label: const Text('毎日22時に確認通知を送る',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
                 showCupertinoDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return CupertinoAlertDialog(
-                        title: const Text('毎日21時に水道管凍結指数を通知しても良いですか?'),
+                        title: const Text('毎日22時に確認通知を送信しますか？'),
                         content: const Text(
-                            '\n※通知を行う際は、このアプリを切らないようお願いします。\nアプリが切られると、天気情報を取得することができなくなります。\nアプリは切らず、バックグラウンド状態にしておいてください。\n\n通知が届かない場合は「設定」からアプリの通知をオンにしてください。'),
+                            '\n水抜き忘れの防止になるので設定をおすすめします。\nシーズンが終了したら通知されなくなります。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -113,9 +112,9 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                               final tz.TZDateTime now =
                                   tz.TZDateTime.now(tz.local);
                               _registerMessage(
-                                hour: now.hour + 1,
-                                //minutes: now.minute + 1,
-                                message: NotificationLevelText,
+                                hour: 16,
+                                //minutes: now.minute,
+                                message: 'アプリを開いて今日の水道管凍結指数を確認しましょう🚰',
                               );
                             },
                             child: const Text('OK'),
@@ -128,7 +127,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         margin: const EdgeInsets.all(10.0),
         child: FloatingActionButton.extended(
             icon: const Icon(Icons.notifications_off),
-            label: const Text('  通知をオフにする  ',
+            label: const Text('       通知をオフにする       ',
                 style: TextStyle(fontWeight: FontWeight.bold)),
             onPressed: () async {
               showCupertinoDialog(
@@ -136,7 +135,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                   builder: (BuildContext context) {
                     return CupertinoAlertDialog(
                       title: const Text('通知をオフにしても良いですか?'),
-                      content: const Text('オフにした場合、毎日21時に通知が届かなくなります。'),
+                      content: const Text('\nオフにした場合、毎日22時に通知が届かなくなります。'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () {
@@ -160,7 +159,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           margin: const EdgeInsets.only(bottom: 10),
           child: FloatingActionButton.extended(
               icon: const Icon(Icons.help),
-              label: const Text(' 通知が届かない場合 ',
+              label: const Text('     通知が届かない場合     ',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               onPressed: () async {
                 showCupertinoDialog(
@@ -168,7 +167,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                     builder: (BuildContext context) {
                       return CupertinoAlertDialog(
                         content: const Text(
-                            '通知が届かない場合は\n「設定」からアプリの通知をオンにしてください。\n\nまた、同じ通知が続く場合はアプリを切っている可能性があります。アプリを切ると天気情報を取得できません。\nアプリは切らず、バックグラウンド状態にしておいてください。'),
+                            '通知が届かない場合は\n「設定アプリ」からアプリの通知をオンにしてください。\n\nそれでも届かない場合は\nスマートフォンの時計表示が、24時間表記でないため通知が届いていない可能性があります。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -181,21 +180,6 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                     });
               })),
     ]);
-  }
-
-  //今夜の水道管凍結指数を計算している。21時現在の気温のため通常より-2°下げた計算になっている。例)-1°の場合-3°とみなす
-  notificationText(Weather weather) {
-    if (weather.low > 1.0) {
-      return NotificationLevelText = '今夜は水道管凍結の心配はありません';
-    } else if (weather.low > -1.0) {
-      return NotificationLevelText = '今夜は水道管凍結の可能性があります';
-    } else if (weather.low > -3.0) {
-      return NotificationLevelText = '今夜は水道管凍結に注意です';
-    } else if (weather.low > -5.0) {
-      return NotificationLevelText = '今夜は水道管凍結に警戒です';
-    } else if (weather.low > -6.0) {
-      return NotificationLevelText = '今夜は水道管の破裂に注意です';
-    }
   }
 
   //ローカル通知設定
@@ -247,7 +231,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         );
   }
 
-  //通知の開始 本アプリでは毎日21時に通知がいくよう設定
+  //通知を開始する 毎日22時に通知がいくよう設定
   Future<void> _registerMessage({
     required int hour,
     //required int minutes,
@@ -265,7 +249,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       0,
-      'トウケツライフ',
+      '22時になりました',
       message,
       scheduledDate,
       NotificationDetails(
@@ -289,67 +273,31 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
     );
   }
 
-// 各ステータスにおけるバックグラウンド実行(10分おき)
+// アプリが再開された時に、天気情報を再取得する
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     print("state = $state");
     switch (state) {
       case AppLifecycleState.inactive:
-        print('非アクティブになったときの処理');
-        while (true) {
-          await Future<void>.delayed(const Duration(minutes: 1));
-          if (mounted) {
-            setState(() {
-              print('1分経ったので、再取得します(非アクティブ状態)');
-              getCurrentWeather;
-              notificationText;
-              showLevelIcon;
-              showLevelText;
-            });
-          }
-        }
       case AppLifecycleState.paused:
-        print('停止されたときの処理');
-        while (true) {
-          await Future<void>.delayed(const Duration(minutes: 1));
-          if (mounted) {
-            setState(() {
-              print('1分経ったので、再取得します(停止状態)');
-              getCurrentWeather;
-              notificationText;
-              showLevelIcon;
-              showLevelText;
-            });
-          }
-        }
       case AppLifecycleState.resumed:
-        print('再開されたときの処理');
-        while (true) {
-          await Future<void>.delayed(const Duration(minutes: 1));
-          if (mounted) {
-            setState(() {
-              print('1分経ったので、再取得します(再開状態)');
-              getCurrentWeather;
-              notificationText;
-              showLevelIcon;
-              showLevelText;
-            });
-          }
-        }
+        setState(() {});
+        break;
       case AppLifecycleState.detached:
-        print('破棄されたときの処理');
-        while (true) {
-          await Future<void>.delayed(const Duration(minutes: 1));
-          if (mounted) {
-            setState(() {
-              print('1分経ったので、再取得します(破棄状態)');
-              getCurrentWeather;
-              notificationText;
-              showLevelIcon;
-              showLevelText;
-            });
-          }
-        }
     }
   }
 }
+
+  //今夜の水道管凍結指数を計算している。21時現在の気温のため通常より-2°下げた計算になっている。例)-1°の場合-3°とみなす
+  //notificationText(Weather weather) {
+  //if (weather.low > 1.0) {
+      //return NotificationLevelText = '今夜は水道管凍結の心配はありません';
+    //} else if (weather.low > -1.0) {
+      //return NotificationLevelText = '今夜は水道管凍結の可能性があります';
+    //} else if (weather.low > -3.0) {
+      //return NotificationLevelText = '今夜は水道管凍結に注意です';
+    //} else if (weather.low > -5.0) {
+      //return NotificationLevelText = '今夜は水道管凍結に警戒です';
+    //} else {
+      //return NotificationLevelText = '今夜は水道管の破裂に注意です';
+    //}
