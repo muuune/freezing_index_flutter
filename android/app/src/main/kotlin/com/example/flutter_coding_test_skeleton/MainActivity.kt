@@ -1,4 +1,4 @@
-package com.example.flutter_coding_test_skeleton
+package com.freezing
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/models/weather.dart';
+import 'package:freezing_index_flutter/pages/current_weather_page.dart';
+import 'package:freezing_index_flutter/pages/error_page.dart';
 import 'package:freezing_index_flutter/show_weather.dart';
+import 'package:http/http.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 import '../get_current_weather.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -37,6 +41,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
   String NowLevelText = '位置情報をONにすると表示されます';
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  Timer? timer;
 
   @override
   Widget build(BuildContext context) {
@@ -46,26 +51,51 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
       builder: (context, snapshot) {
         _weather = snapshot.data;
         if (snapshot.data == null) {
-          return const Text.rich(
-            textAlign: TextAlign.center,
-            TextSpan(children: [
-              TextSpan(
-                text: "天気情報取得中...\n\n",
-                style: TextStyle(fontSize: 16),
+          timer = Timer(const Duration(seconds: 20), () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ErrorPage()),
+            );
+          });
+          return Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(15),
               ),
-              TextSpan(
-                  text: "しばらく経っても表示されない場合は\n", style: TextStyle(fontSize: 12)),
-              TextSpan(
-                  text: "「設定アプリ」から位置情報をオンにしてください",
-                  style: TextStyle(fontSize: 12)),
-            ]),
-          );
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _getLoadingIndicator(),
+                    _getHeading(),
+                  ]));
         } else {
+          timer!.cancel();
           return weatherBox(_weather!);
         }
       },
       future: getCurrentWeather(),
     )));
+  }
+
+  Widget _getLoadingIndicator() {
+    return Padding(
+        child: Container(
+            child: const CircularProgressIndicator(strokeWidth: 5),
+            width: 30,
+            height: 30),
+        padding: const EdgeInsets.all(20));
+  }
+
+  Widget _getHeading() {
+    return const Padding(
+        child: Text(
+          '天気情報取得中...',
+          style: TextStyle(color: Colors.white, fontSize: 15),
+          textAlign: TextAlign.center,
+        ),
+        padding: EdgeInsets.all(10));
   }
 
   Widget weatherBox(Weather weather) {
@@ -98,7 +128,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                       return CupertinoAlertDialog(
                         title: const Text('毎日22時に確認通知を送信しますか？'),
                         content: const Text(
-                            '\n水抜き忘れの防止になるので設定をおすすめします。\nシーズンが終了したら通知されなくなります。'),
+                            '\n水抜きし忘れの防止になるので設定をおすすめします。\nシーズンが終了したら通知されなくなります。'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
@@ -112,7 +142,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                               final tz.TZDateTime now =
                                   tz.TZDateTime.now(tz.local);
                               _registerMessage(
-                                hour: 16,
+                                hour: 22,
                                 //minutes: now.minute,
                                 message: 'アプリを開いて今日の水道管凍結指数を確認しましょう🚰',
                               );
@@ -272,21 +302,21 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }
+}
 
 // アプリが再開された時に、天気情報を再取得する
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print("state = $state");
-    switch (state) {
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.paused:
-      case AppLifecycleState.resumed:
-        setState(() {});
-        break;
-      case AppLifecycleState.detached:
-    }
-  }
-}
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) async {
+  //   print("state = $state");
+  //   switch (state) {
+  //     case AppLifecycleState.inactive:
+  //     case AppLifecycleState.paused:
+  //     case AppLifecycleState.resumed:
+  //       setState(() {});
+  //       break;
+  //     case AppLifecycleState.detached:
+  //   }
+  // }
 
   //今夜の水道管凍結指数を計算している。21時現在の気温のため通常より-2°下げた計算になっている。例)-1°の場合-3°とみなす
   //notificationText(Weather weather) {

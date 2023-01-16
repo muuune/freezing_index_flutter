@@ -9,7 +9,7 @@ String? latitude;
 String? longitude;
 
 Future getCurrentWeather() async {
-  String apiKey = "ここにAPIキー"; // ここにAPIキーを入力する
+  String apiKey = "985daafdbc6c68ae20ede36ee513bc9a"; // ここにAPIキーを入力する
   bool serviceEnabled;
   LocationPermission permission;
 

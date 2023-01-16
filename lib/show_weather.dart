@@ -51,11 +51,11 @@ showWeatherIcon(Weather weather) {
 showLevelIcon(Weather weather) {
   if (weather.low > 0.0) {
     return Image.asset('images/level_1.png', scale: 1.8);
-  } else if (weather.low > -3.0) {
+  } else if (weather.low > -2.0) {
     return Image.asset('images/level_2.png', scale: 2.3);
-  } else if (weather.low > -5.0) {
+  } else if (weather.low > -4.0) {
     return Image.asset('images/level_3.png', scale: 2.3);
-  } else if (weather.low > -7.0) {
+  } else if (weather.low > -6.0) {
     return Image.asset('images/level_4.png', scale: 2.3);
   } else {
     return Image.asset('images/level_5.png', scale: 2.3);
@@ -69,17 +69,17 @@ showLevelText(Weather weather) {
       '現在、水道管凍結の心配はありません',
       style: TextStyle(fontSize: 15),
     );
-  } else if (weather.low > -3.0) {
+  } else if (weather.low > -2.0) {
     return const Text(
       '現在、水道管凍結の可能性があります',
       style: TextStyle(fontSize: 15),
     );
-  } else if (weather.low > -5.0) {
+  } else if (weather.low > -4.0) {
     return const Text(
       '現在、水道管凍結に注意です',
       style: TextStyle(fontSize: 15),
     );
-  } else if (weather.low > -7.0) {
+  } else if (weather.low > -6.0) {
     return const Text(
       '現在、水道管凍結に警戒です',
       style: TextStyle(fontSize: 15),

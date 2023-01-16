@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/get_current_weather.dart';
 import 'package:freezing_index_flutter/show_weather.dart';
 import '../models/weather.dart';
+import 'error_page.dart';
 
 class CurrentWeatherPage extends StatefulWidget with WidgetsBindingObserver {
   const CurrentWeatherPage({super.key});
@@ -13,6 +15,7 @@ class CurrentWeatherPage extends StatefulWidget with WidgetsBindingObserver {
 class _CurrentWeatherPage extends State<CurrentWeatherPage>
     with WidgetsBindingObserver {
   Weather? _weather;
+  Timer? timer;
 
   @override
   void initState() {
@@ -35,25 +38,51 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
       builder: (context, snapshot) {
         _weather = snapshot.data;
         if (snapshot.data == null) {
-          return const Text.rich(
-            textAlign: TextAlign.center,
-            TextSpan(children: [
-              TextSpan(
-                text: "天気情報取得中...\n\n",
-                style: TextStyle(fontSize: 16),
+          timer = Timer(const Duration(seconds: 20), () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ErrorPage()),
+            );
+          });
+          return Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(15),
               ),
-              TextSpan(
-                  text: "しばらく経っても表示されない場合は\n", style: TextStyle(fontSize: 12)),
-              TextSpan(
-                  text: "「設定」から位置情報をオンにしてください", style: TextStyle(fontSize: 12)),
-            ]),
-          );
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _getLoadingIndicator(),
+                    _getHeading(),
+                  ]));
         } else {
+          timer!.cancel();
           return weatherBox(_weather!);
         }
       },
       future: getCurrentWeather(),
     )));
+  }
+
+  Widget _getLoadingIndicator() {
+    return Padding(
+        child: Container(
+            child: const CircularProgressIndicator(strokeWidth: 5),
+            width: 30,
+            height: 30),
+        padding: const EdgeInsets.all(20));
+  }
+
+  Widget _getHeading() {
+    return const Padding(
+        child: Text(
+          '天気情報取得中...',
+          style: TextStyle(color: Colors.white, fontSize: 15),
+          textAlign: TextAlign.center,
+        ),
+        padding: EdgeInsets.all(10));
   }
 
   Widget weatherBox(Weather weather) {
@@ -132,18 +161,18 @@ class _CurrentWeatherPage extends State<CurrentWeatherPage>
               })),
     ]);
   }
+}
 
 // アプリが再開された時に、天気情報を再取得する
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print("state = $state");
-    switch (state) {
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.paused:
-      case AppLifecycleState.resumed:
-        setState(() {});
-        break;
-      case AppLifecycleState.detached:
-    }
-  }
-}
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) async {
+  //   print("state = $state");
+  //   switch (state) {
+  //     case AppLifecycleState.inactive:
+  //     case AppLifecycleState.paused:
+  //     case AppLifecycleState.resumed:
+  //       setState(() {});
+  //       break;
+  //     case AppLifecycleState.detached:
+  //   }
+  // }

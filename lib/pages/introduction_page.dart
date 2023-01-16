@@ -169,7 +169,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
                     const Padding(
                       padding: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        "毎晩、忘れずに水道管凍結指数を確認できるよう、通知をお届けします。 \n水抜き忘れの防止にもなるので、設定することをおすすめします。",
+                        "毎晩、忘れずに水道管凍結指数を確認できるよう、通知をお届けします。 \n水抜きし忘れの防止になるので、設定することをおすすめします。",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
