@@ -1,6 +1,6 @@
 name: freezing_index_flutter
 description: A new Flutter project.
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
@@ -26,6 +26,8 @@ dependencies:
   flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.2.16
   geolocator: ^9.0.2
+  geocoding: ^2.0.5
+  connectivity: ^3.0.6
 
 dev_dependencies:
   flutter_test:

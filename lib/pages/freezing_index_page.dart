@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/models/weather.dart';
-import 'package:freezing_index_flutter/pages/current_weather_page.dart';
 import 'package:freezing_index_flutter/pages/error_page.dart';
+import 'package:freezing_index_flutter/pages/postal_page.dart';
 import 'package:freezing_index_flutter/show_weather.dart';
-import 'package:http/http.dart';
-import 'package:introduction_screen/introduction_screen.dart';
 import '../get_current_weather.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:connectivity/connectivity.dart';
 
 class FreezingIndexPage extends StatefulWidget {
   const FreezingIndexPage({super.key});
@@ -21,6 +20,11 @@ class FreezingIndexPage extends StatefulWidget {
 
 class _FreezingIndexPage extends State<FreezingIndexPage>
     with WidgetsBindingObserver {
+  @override
+  void main() {
+    connectCheck;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +58,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           timer = Timer(const Duration(seconds: 20), () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ErrorPage()),
+              MaterialPageRoute(builder: (context) => const PostalPage()),
             );
           });
           return Container(
@@ -69,6 +73,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                   children: [
                     _getLoadingIndicator(),
                     _getHeading(),
+                    _getHeading2(),
                   ]));
         } else {
           timer!.cancel();
@@ -98,118 +103,119 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
         padding: EdgeInsets.all(10));
   }
 
-  Widget weatherBox(Weather weather) {
-    return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-      Container(
-        margin: const EdgeInsets.all(10.0),
-        child: const Text(
-          '現在地の水道管凍結指数',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+  Widget _getHeading2() {
+    return const Padding(
+        child: Text(
+          'しばらく経っても表示されない場合は\n設定から位置情報をオンにしてください',
+          style: TextStyle(color: Colors.white, fontSize: 10),
+          textAlign: TextAlign.center,
         ),
-      ),
-      Container(
-        margin: const EdgeInsets.all(10.0),
-        child: showLevelIcon(weather),
-      ),
-      Container(
-        margin: const EdgeInsets.only(top: 10),
-        child: showLevelText(weather),
-      ),
-      Container(
-          margin: const EdgeInsets.only(top: 30),
-          child: FloatingActionButton.extended(
-              icon: const Icon(Icons.notification_add),
-              label: const Text('毎日22時に確認通知を送る',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              onPressed: () async {
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CupertinoAlertDialog(
-                        title: const Text('毎日22時に確認通知を送信しますか？'),
-                        content: const Text(
-                            '\n水抜きし忘れの防止になるので設定をおすすめします。\nシーズンが終了したら通知されなくなります。'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('キャンセル'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              final tz.TZDateTime now =
-                                  tz.TZDateTime.now(tz.local);
-                              _registerMessage(
-                                hour: 22,
-                                //minutes: now.minute,
-                                message: 'アプリを開いて今日の水道管凍結指数を確認しましょう🚰',
-                              );
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    });
-              })),
-      Container(
-        margin: const EdgeInsets.all(10.0),
-        child: FloatingActionButton.extended(
-            icon: const Icon(Icons.notifications_off),
-            label: const Text('       通知をオフにする       ',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            onPressed: () async {
-              showCupertinoDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CupertinoAlertDialog(
-                      title: const Text('通知をオフにしても良いですか?'),
-                      content: const Text('\nオフにした場合、毎日22時に通知が届かなくなります。'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('キャンセル'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                            _cancelNotification();
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    );
-                  });
-            }),
-      ),
-      Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          child: FloatingActionButton.extended(
-              icon: const Icon(Icons.help),
-              label: const Text('     通知が届かない場合     ',
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              onPressed: () async {
-                showCupertinoDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CupertinoAlertDialog(
-                        content: const Text(
-                            '通知が届かない場合は\n「設定アプリ」からアプリの通知をオンにしてください。\n\nそれでも届かない場合は\nスマートフォンの時計表示が、24時間表記でないため通知が届いていない可能性があります。'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text('OK'),
-                          ),
-                        ],
-                      );
-                    });
-              })),
-    ]);
+        padding: EdgeInsets.all(10));
+  }
+
+  Widget weatherBox(Weather weather) {
+    return Scaffold(
+        floatingActionButton: Padding(
+            padding: const EdgeInsets.only(right: 10, top: 30, bottom: 5),
+            child: FloatingActionButton(
+              onPressed: () {
+                setState(() {});
+              },
+              tooltip: 'Increment',
+              child: Icon(Icons.refresh, size: 30),
+            )),
+        body: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.all(10.0),
+              child: const Text(
+                '現在地の水道管凍結指数',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10.0),
+              child: showLevelIcon(weather),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              child: showLevelText(weather),
+            ),
+            Container(
+                margin: const EdgeInsets.only(top: 30),
+                child: FloatingActionButton.extended(
+                    icon: const Icon(Icons.notification_add),
+                    label: const Text('毎日22時に確認通知を送る',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    onPressed: () async {
+                      showCupertinoDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CupertinoAlertDialog(
+                              title: const Text('毎日22時に確認通知を送信しますか？'),
+                              content: const Text(
+                                  '\n水抜きし忘れの防止になるので設定をおすすめします。\nシーズンが終了したら通知されなくなります。'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('キャンセル'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    final tz.TZDateTime now =
+                                        tz.TZDateTime.now(tz.local);
+                                    _registerMessage(
+                                      hour: 22,
+                                      //minutes: now.minute,
+                                      message: 'アプリを開いて今日の水道管凍結指数を確認しましょう🚰',
+                                    );
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          });
+                    })),
+            Container(
+              margin: const EdgeInsets.all(10.0),
+              child: FloatingActionButton.extended(
+                  icon: const Icon(Icons.notifications_off),
+                  label: const Text('       通知をオフにする       ',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  onPressed: () async {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CupertinoAlertDialog(
+                            title: const Text('通知をオフにしても良いですか?'),
+                            content: const Text('\nオフにした場合、毎日22時に通知が届かなくなります。'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('キャンセル'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  _cancelNotification();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        });
+                  }),
+            ),
+          ],
+        )));
   }
 
   //ローカル通知設定
@@ -302,21 +308,33 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
       matchDateTimeComponents: DateTimeComponents.time,
     );
   }
+
+  void connectCheck(context) async {
+    final ConnectivityResult connectivityResult =
+        await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ErrorPage()),
+      );
+    }
+  }
 }
 
-// アプリが再開された時に、天気情報を再取得する
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) async {
-  //   print("state = $state");
-  //   switch (state) {
-  //     case AppLifecycleState.inactive:
-  //     case AppLifecycleState.paused:
-  //     case AppLifecycleState.resumed:
-  //       setState(() {});
-  //       break;
-  //     case AppLifecycleState.detached:
-  //   }
-  // }
+  // アプリが再開された時に、天気情報を再取得する
+//   @override
+//   void didChangeAppLifecycleState(AppLifecycleState state) async {
+//     print("state = $state");
+//     switch (state) {
+//       case AppLifecycleState.inactive:
+//       case AppLifecycleState.paused:
+//       case AppLifecycleState.resumed:
+//         setState(() {});
+//         break;
+//       case AppLifecycleState.detached:
+//     }
+//   }
+// }
 
   //今夜の水道管凍結指数を計算している。21時現在の気温のため通常より-2°下げた計算になっている。例)-1°の場合-3°とみなす
   //notificationText(Weather weather) {

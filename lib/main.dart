@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/pages/first_page.dart';
 import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
 import 'package:freezing_index_flutter/pages/home_page.dart';
+import 'package:freezing_index_flutter/pages/postal_page.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // チュートリアル画面に移動
-      home: const FirstPage(),
+      home: FirstPage(),
     );
   }
 }
