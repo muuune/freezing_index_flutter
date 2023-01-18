@@ -4,6 +4,7 @@ import 'package:freezing_index_flutter/pages/current_weather_page.dart';
 import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:freezing_index_flutter/pages/postal_page.dart';
+import 'package:freezing_index_flutter/pages/setting_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,34 +39,14 @@ class _HomePage extends State<HomePage> {
               centerTitle: true,
               title: const Text('トウケツライフ',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              leading: IconButton(
-                  icon: const Icon(Icons.help),
-                  onPressed: () {
-                    showCupertinoDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return CupertinoAlertDialog(
-                            content: const Text(
-                                '通知が届かない場合は\n「設定アプリ」からアプリの通知をオンにしてください。\n\nそれでも届かない場合は\nスマートフォンの時計表示が、24時間表記でないため通知が届いていない可能性があります。'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          );
-                        });
-                  }),
               actions: [
                 IconButton(
-                  icon: const Icon(Icons.push_pin),
+                  icon: const Icon(Icons.settings),
                   onPressed: () => {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const PostalPage(),
+                        builder: (context) => SettingPage(),
                         fullscreenDialog: true,
                       ),
                     )

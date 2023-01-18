@@ -147,6 +147,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
             Container(
                 margin: const EdgeInsets.only(top: 30),
                 child: FloatingActionButton.extended(
+                    heroTag: 'オン',
                     icon: const Icon(Icons.notification_add),
                     label: const Text('毎日22時に確認通知を送る',
                         style: TextStyle(fontWeight: FontWeight.bold)),
@@ -185,6 +186,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
             Container(
               margin: const EdgeInsets.all(10.0),
               child: FloatingActionButton.extended(
+                  heroTag: 'オフ',
                   icon: const Icon(Icons.notifications_off),
                   label: const Text('       通知をオフにする       ',
                       style: TextStyle(fontWeight: FontWeight.bold)),
