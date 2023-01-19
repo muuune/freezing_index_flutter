@@ -10,7 +10,6 @@ import 'package:timezone/timezone.dart' as tz;
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:connectivity/connectivity.dart';
 
 class FreezingIndexPage extends StatefulWidget {
   const FreezingIndexPage({super.key});
@@ -20,11 +19,6 @@ class FreezingIndexPage extends StatefulWidget {
 
 class _FreezingIndexPage extends State<FreezingIndexPage>
     with WidgetsBindingObserver {
-  @override
-  void main() {
-    connectCheck;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -172,7 +166,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                                     final tz.TZDateTime now =
                                         tz.TZDateTime.now(tz.local);
                                     _registerMessage(
-                                      hour: 22,
+                                      hour: now.hour,
                                       //minutes: now.minute,
                                       message: 'アプリを開いて今日の水道管凍結指数を確認しましょう🚰',
                                     );
@@ -309,17 +303,6 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
-  }
-
-  void connectCheck(context) async {
-    final ConnectivityResult connectivityResult =
-        await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const ErrorPage()),
-      );
-    }
   }
 }
 

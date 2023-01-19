@@ -46,6 +46,7 @@ class TutorialCoachMarkExampleState extends ConsumerState<Tutorial> {
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50.0),
             child: AppBar(
+              centerTitle: true,
               title: const Text('トウケツライフ',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               automaticallyImplyLeading: false,

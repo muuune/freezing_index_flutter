@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
+import 'package:freezing_index_flutter/get_current_weather.dart';
 import 'package:freezing_index_flutter/models/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/show_weather.dart';
@@ -67,17 +69,18 @@ class _PostalPage extends State<PostalPage> {
                   ),
                   OutlinedButton(
                       onPressed: () async {
-                        primaryFocus?.unfocus();
-
                         var locations =
                             await locationFromAddress(zipCodeController.text);
                         var lat = locations.first.latitude;
-                        var long = locations.first.latitude;
+                        var long = locations.first.longitude;
 
-                        postalGetCurrentWeather();
-                        setState(() {
-                          Weather _waether;
-                        });
+                        latitude = "$lat";
+                        longitude = "$long";
+
+                        print(locations);
+                        postalGetCurrentWeather(latitude, longitude);
+
+                        setState(() {});
                       },
                       child: const Text('検索')),
                 ],
@@ -92,28 +95,9 @@ class _PostalPage extends State<PostalPage> {
                     return weatherBox(_weather!);
                   }
                 },
-                future: postalGetCurrentWeather(),
+                future: postalGetCurrentWeather(latitude, longitude),
               )),
             ])));
-  }
-
-  Widget _getLoadingIndicator() {
-    return Padding(
-        child: Container(
-            child: const CircularProgressIndicator(strokeWidth: 5),
-            width: 30,
-            height: 30),
-        padding: const EdgeInsets.all(20));
-  }
-
-  Widget _getHeading() {
-    return const Padding(
-        child: Text(
-          '天気情報取得中...',
-          style: TextStyle(color: Colors.white, fontSize: 15),
-          textAlign: TextAlign.center,
-        ),
-        padding: EdgeInsets.all(10));
   }
 
   Widget weatherBox(Weather weather) {
@@ -146,25 +130,31 @@ class _PostalPage extends State<PostalPage> {
     ]);
   }
 
-  Future postalGetCurrentWeather() async {
-    String apiKey = "985daafdbc6c68ae20ede36ee513bc9a"; // ここにAPIキーを入力する
-
-    var locations = await locationFromAddress(zipCodeController.text);
-    var lat = locations.first.latitude;
-    var long = locations.first.longitude;
-
-    latitude = "$lat";
-    longitude = "$long";
-
-    //APIキーと現在地の緯度・経度からOpenWeatherMapから天気情報を取得
-    var url =
-        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&APPID=$apiKey&units=metric";
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
+  Future postalGetCurrentWeather(String? latitude, String? longitude) async {
+    if (latitude == null) {
     } else {
-      throw Exception(response.body);
+      String apiKey = "985daafdbc6c68ae20ede36ee513bc9a"; // ここにAPIキーを入力する
+
+      // var locations = await locationFromAddress(zipCodeController.text);
+
+      // var lat = locations.first.latitude;
+      // var long = locations.first.longitude;
+
+      // latitude = "$lat";
+      // longitude = "$long";
+
+      // print(locations);
+
+      //APIキーと現在地の緯度・経度からOpenWeatherMapから天気情報を取得
+      var url =
+          "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&APPID=$apiKey&units=metric";
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+      } else {
+        throw Exception(response.body);
+      }
+      return Weather.fromJson(jsonDecode(response.body));
     }
-    return Weather.fromJson(jsonDecode(response.body));
   }
 }

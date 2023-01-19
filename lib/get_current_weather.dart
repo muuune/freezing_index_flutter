@@ -33,6 +33,7 @@ Future getCurrentWeather() async {
 
   var position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high);
+
   var lat = position.latitude;
   var long = position.longitude;
 
