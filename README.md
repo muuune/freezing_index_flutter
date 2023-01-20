@@ -1,41 +1,25 @@
 
-# トウケツライフ(Frozen Life)
+# トウケツライフ / 水抜きのし忘れを防止する
+![5 5インチ_AppStore](https://user-images.githubusercontent.com/74311952/213666331-e40f394a-d28a-4707-a122-efaffb441043.png)
 
-寒冷地では、寒さによって水道管が凍ってしまうことから、毎晩の水抜きは当たり前のように行われています🚰
-
-しかし、寒冷地に引っ越してきた大学生にとって「水抜き」とは全く未知のこと。
-
-既存の天気アプリでは、水道管凍結指数が表示されているアプリもごく一部存在するが、極めて表示が小さく、そもそも毎晩凍結指数をお知らせしてくれるアプリはありません！
-
-そこで、現在地の天気情報から水道管凍結指数を計算し、毎晩21時に通知をしてくれるアプリケーションを開発してみました！
+アプリの詳細はこちらをご覧ください → https://masamune-68.github.io/profile/works/freeze/
 
 # ダウンロードはこちら
-* AppleStore: 現在審査中...
-* GooglePlayStore: 現在審査中...
+* iOS(macOSでも可): https://apps.apple.com/jp/app/id1665422821
+* Android: 現在審査中...
 
 # デモ動画
 
-![ezgif-4-128466680a](https://user-images.githubusercontent.com/74311952/211473419-b025e790-b6ef-4799-a3ef-f08524b83d66.gif)
+![ezgif-1-a07b0b45c3](https://user-images.githubusercontent.com/74311952/213666727-27deec37-e1c0-4269-ab57-b0d0039b817a.gif)
 
-![ezgif-4-5239fa1fc5](https://user-images.githubusercontent.com/74311952/211474547-d7569275-aa13-41b3-8759-782b5105a08b.gif)
+![Notification](https://user-images.githubusercontent.com/74311952/213666831-27592359-690d-4811-9411-2ab33c545c40.gif)
 
+# 開発言語・使用したAPI/パッケージ
 
-# アプリの概要
-
-Geolocatorで、現在地の緯度・経度を取得。
-
-その後、そのデータを用いてOpenWeatherMapから天気情報を取得。
-
-取得した天気情報から、水道管凍結指数を計算し、アプリ上で表示。
-
-毎日21時に凍結指数を通知することができ、今夜の水抜きが必要かどうか確認することができる。
-
-水抜きの防止にもつながります。
-
-# 開発する上で使用したAPI・パッケージ
-
-* OpenWeatherMap API (https://openweathermap.org/)
-* geolocator : ^9.0.2
+* language: Dart/Flutter
+* API: OpenWeatherMapAPI (https://openweathermap.org/)
+* geolocator: ^9.0.2
+* geocoding: ^2.0.5
 * flutter_local_notifications: ^13.0.0
 * timezone: ^0.9.1
 * flutter_native_timezone: ^2.0.0
@@ -46,19 +30,10 @@ Geolocatorで、現在地の緯度・経度を取得。
 * dio: ^4.0.6
 * flutter_launcher_icons: ^0.11.0
 * flutter_native_splash: ^2.2.16
+* url_launcher: ^6.1.7
 
-# 開発する上で苦労した点
 
-* アプリライフサイクルを理解し、inactive/paused/resumed/detached時においても天気情報や指数の計算を常時処理できるよう、実装したこと。
-
-* 毎晩、今夜の水道管凍結指数の通知が届くように実装した点。
-
-* チュートリアル画面を初回起動のみ表示するように実装した点。
-
-# 最後に
 
 寒冷地で新生活を送る大学生をターゲットに、アプリの開発を行いました 🚀
-
-アプリのデザインや機能面は随時改善していきます🚰
 
 是非ダウンロードして使ってみてください！
