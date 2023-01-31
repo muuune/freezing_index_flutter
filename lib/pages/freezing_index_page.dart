@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/models/weather.dart';
-import 'package:freezing_index_flutter/pages/error_page.dart';
 import 'package:freezing_index_flutter/pages/postal_page.dart';
 import 'package:freezing_index_flutter/show_weather.dart';
 import '../get_current_weather.dart';
@@ -166,7 +165,7 @@ class _FreezingIndexPage extends State<FreezingIndexPage>
                                     final tz.TZDateTime now =
                                         tz.TZDateTime.now(tz.local);
                                     _registerMessage(
-                                      hour: now.hour,
+                                      hour: 22,
                                       //minutes: now.minute,
                                       message: 'アプリを開いて今日の水道管凍結指数を確認しましょう🚰',
                                     );

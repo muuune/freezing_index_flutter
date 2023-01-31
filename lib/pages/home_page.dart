@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:freezing_index_flutter/pages/current_weather_page.dart';
 import 'package:freezing_index_flutter/pages/freezing_index_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:freezing_index_flutter/pages/postal_page.dart';
 import 'package:freezing_index_flutter/pages/setting_page.dart';
 
 class HomePage extends StatefulWidget {

@@ -6,8 +6,8 @@
 ![5 5インチ_AppStore](https://user-images.githubusercontent.com/74311952/213666331-e40f394a-d28a-4707-a122-efaffb441043.png)
 
 # ダウンロードはこちら
-* iOS(macOS): https://apps.apple.com/jp/app/id1665422821
-* Android: 現在審査中...
+* iOS(macOS): http://is.gd/HKmjbF
+* Android: https://is.gd/vwaMQg
 
 # デモ動画
 

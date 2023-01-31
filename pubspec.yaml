@@ -1,6 +1,6 @@
 name: freezing_index_flutter
 description: A new Flutter project.
-version: 1.0.0+4
+version: 1.0.0+9
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
